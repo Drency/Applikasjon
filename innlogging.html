@@ -11,13 +11,13 @@
     <body style="background-color:rgb(29, 28, 28)">
         <nav class="navbar navbar-expand-lg navbar-dark col-xs-12 col-sm-12 col-md-6 col-lg-6" style="background-color: #383838;">
             <div class="container-fluid">
-                <!-- <div class="navbar-header"> -->
+                
                     <a href="index.html"><img src = "img/Logof.png" alt="Logo" style="height:100px;"></a>
                     <a href="use.html" class="btn btn-light">Hjelp</a>
                     <a href="about.html" class="btn btn-light">Om Oss</a>
                     <a href="innlogging.html" class="btn btn-light" style="margin:2%; float:right;">Logg Inn</a>
                     <hr style="border-top: solid 2px white; margin-top: 2%;">
-                <!-- </div> -->
+
             </div>     
         </nav>
 
@@ -28,7 +28,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="position: center;">
                         <!-- Start form -->
                         <form>
-                          <div class="form-group">
+                          <div class="form-group" action="logginn.php">
                             <label for="InputEmail">E-mail</label>
                             <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
                           </div>
@@ -42,13 +42,24 @@
                           </div>
                         </form>
                         <h2><strong>Ny bruker</strong></h2>
-                        <form>
+                        <form action="reg.php">
                             <div class="form-group">
                                 <label for="newEmail">Din Mail</label>
                                 <input type="email" class="form-control" placeholder="mail@eksempel.no">
+                            </div>
+                            <div class="form-group">
                                 <label for="newPass">Passord</label>
                                 <input type="password" id="newPass" placeholder="Passord">
                             </div>
+                            <div class="form-group">
+                                <label>Fornavn</label>
+                                <input type="text" placeholder="Fornavn">
+                            </div>
+                            <div class="form-group">
+                                <label>Etternavn</label>
+                                <input type="text" placeholder="Etternavn">
+                            </div>
+                            <button type="submit">Registrer</button>
                         </form>
                     </div>
                 </div>
