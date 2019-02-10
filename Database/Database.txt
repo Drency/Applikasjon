@@ -1,0 +1,37 @@
+CREATE TABLE Brukere (
+    PersonID int NOT NULL,
+    Email varchar(255),
+    Passord varchar(45),
+    PRIMARY KEY (PersonID)
+);
+
+CREATE TABLE Bilbliotek (
+    bibID int NOT NULL,
+    bibNavn varchar(45),
+    PRIMARY KEY (bibID),
+    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID)
+);
+
+CREATE TABLE Mapper (
+    mapID int NOT NULL,
+    MappeNavn varchar(45),
+    PRIMARY KEY (mapID),
+    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID),
+    FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID)
+);
+
+CREATE TABLE Links (
+    LinksBilde BLOB,
+    LinkNavn varchar(45),
+    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID),
+    FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID),
+    FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
+);
+
+CREATE TABLE Filer (
+    filID BLOB NOT NULL,
+    PRIMARY KEY (filID),
+    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID),
+    FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID),
+    FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
+);
