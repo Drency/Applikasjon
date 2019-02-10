@@ -1,37 +1,39 @@
 CREATE TABLE Brukere (
-    PersonID int NOT NULL,
+    PersonID int UNIQUE NOT NULL AUTO_INCREMENT,
     Email varchar(255),
     Passord varchar(45),
     PRIMARY KEY (PersonID)
 );
 
 CREATE TABLE Bilbliotek (
-    bibID int NOT NULL,
+    bibID int UNIQUE NOT NULL,
     bibNavn varchar(45),
     PRIMARY KEY (bibID),
     FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID)
 );
 
 CREATE TABLE Mapper (
-    mapID int NOT NULL,
+    mapID int UNIQUE NOT NULL,
     MappeNavn varchar(45),
     PRIMARY KEY (mapID),
-    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID),
     FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID)
 );
 
 CREATE TABLE Links (
     LinksBilde BLOB,
     LinkNavn varchar(45),
-    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID),
-    FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID),
+    PRIMARY KEY (mapID),
     FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
 );
 
 CREATE TABLE Filer (
-    filID BLOB NOT NULL,
-    PRIMARY KEY (filID),
-    FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID),
-    FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID),
+    filID BLOB UNIQUE NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (mapID),
     FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
+);
+
+CREATE TABLE Bilder (
+    bildeID UNIQUE NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(bibID),
+    FOREIGN KEY (bibID) REFERENCES Mapper(mapID)
 );
