@@ -1,70 +1,100 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="no">
+
+<head>
     <title>New Home</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-  </head>
-  <body style="background-color:rgb(29, 28, 28);">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 2px;
+        }
+    </style>
+</head>
+
+<body style="background-color:rgb(29, 28, 28);">
+
     <!-- Adding Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark col-xs-12 col-sm-12 col-md-6 col-lg-6" style="background-color: #383838;">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
+        <a class="navbar-brand" href="index.html"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="use.html">Hjelp</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">Om oss</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="innlogging.html">Logg inn</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <!-- <nav class="navbar navbar-expand-lg" style="background-color: #383838;">
+        
         <div class="container-fluid">
-            <!-- <div class="navbar-header"> -->
-            <a href="index.html"><img src = "img/FerdigLogo.png" alt="Logo" style="height:100px;"></a>
+            
+            <a href="index.html"><img src="img/FerdigLogo.png" alt="Logo" style="height:100px;"></a>
             <a href="use.html" class="btn btn-light">Hjelp</a>
             <a href="about.html" class="btn btn-light">Om Oss</a>
             <a href="innlogging.html" class="btn btn-light" style="margin:2%; float:right;">Logg Inn</a>
             <hr style="border-top: solid 2px white; margin-top: 2%;">
-            <!-- </div> -->
-        </div>     
-    </nav>
-    
-    <!-- Heading for landingpage -->
+            
+        </div>
+    </nav> -->
 
+    <!-- Heading for landingpage -->
     <h1 class="text-center" style="font-family: Georgia, serif; color: white;">New Home</h1>
-    
-    <div class="card-group" style="color:white;">
-        <div class="col-sm-6 col-md-6 col-lg-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Brukerveiledning</h5>
-                    <p class="card-text">Trykk på knappen under om du trenger hjelp til bruken av New Home.</p>
-                    <a href="use.html" class="btn btn-light">Brukerveiledning</a>
-                </div>
-            </div>
+
+
+
+    <div class="card-deck" style="color:white;">
+        <div class="card" style="background-color:rgb(29, 28, 28)">
+            <h5 class="card-title">Brukerveiledning</h5>
+            <p class="card-text">Trykk på knappen under om du trenger hjelp til bruken av New Home.</p>
+            <a href="use.html" class="btn btn-light">Brukerveiledning</a>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Brukerveiledning</h5>
-                    <p class="card-text">Trykk på knappen under om du trenger hjelp til bruken av New Home.</p>
-                    <a href="use.html" class="btn btn-light">Brukerveiledning</a>
-                </div>
-            </div>
+        <div class="card" style="background-color:rgb(29, 28, 28)">
+            <h5 class="card-title">Om Oss</h5>
+            <p class="card-text">Om du vil lære mer om oss i New Home kan du trykke på knappen under.</p>
+            <a href="use.html" class="btn btn-light">Brukerveiledning</a>
         </div>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Brukerveiledning</h5>
-                    <p class="card-text">Trykk på knappen under om du trenger hjelp til bruken av New Home.</p>
-                    <a href="use.html" class="btn btn-light">Brukerveiledning</a>
-                </div>
-            </div>
+        <div class="card" style="background-color:rgb(29, 28, 28)">
+            <h5 class="card-title">Registrering / Logg inn</h5>
+            <p class="card-text">Her kan du registrere deg som ny bruker eller logg inn hvis du er eksisterende bruker</p>
+            <a href="use.html" class="btn btn-light">Brukerveiledning</a>
         </div>
     </div>
-    
-
+    <div style="height: 555px;"></div>
     <!-- Footer -->
-    <footer class="page-footer">
-        <div class="footer-copyright text-center py-3" style="position: absolute; bottom: 0; left: 40%; color:white;">
-            
+    <footer class="footer navbar-fixed-bottom">
+        <div class="footer-copyright text-center" style="color:white;">
+
             © 2018 Copyright:
             <p>Alle rettigheter tilhører New Home Inc.</p>
         </div>
     </footer>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+</body>
+
 </html>
