@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Innlogging</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+        <style>
+            html, body {
+                max-width: 100%;
+                overflow-x: hidden;
+                margin: 2px;
+            }
+        </style>
+        
+    </head>
 
-<head>
-    <title>Innlogging</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <body style="background-color:rgb(29, 28, 28)">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
+            <a class="navbar-brand" href="index.html"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="use.html">Hjelp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Om oss</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="innlogging.html">Logg inn</a>
+                    </li>
+                </ul>
+    
+            </div>
+        </nav>
 
-</head>
-
-<body style="background-color:rgb(29, 28, 28)">
-    <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
-        <a class="navbar-brand" href="index.html"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="use.html">Hjelp</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">Om oss</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="innlogging.html">Logg inn</a>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
-
-    <div class="main">
-        <div class="container" style="margin:0 auto; width:40%;">
-            <div class="row" style="color: white;">
-                <h2><strong>Logg inn til New Home</strong></h2>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="position: center;">
-                    <!-- Start form -->
-                    <form>
-                        <div class="form-group" action="logginn.php">
+        <div class="main">
+            <div class="container">	
+                <div class="row" style="color: white;">
+                    <h2><strong>Logg inn til New Home</strong></h2>
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="position: center;"> -->
+                        <!-- Start form -->
+                        <form>
+                          <div class="form-group" action="logginn.php">
                             <label for="InputEmail">E-mail</label>
                             <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
                         </div>
@@ -79,11 +86,23 @@
         </div>
     </div>
 
-    <footer class="page-footer" style="bottom:0; left:40%; color: white;">
-        <div class="footer-copyright text-center py-3">© 2018 Copyright:
-            <p>Alle rettigheter tilhører New Home Inc.</p>
-        </div>
-    </footer>
+        <footer class="page-footer" style="bottom:0; left:40%; color: white;">
+            <div class="footer-copyright text-center py-3">© 2018 Copyright:
+                <p>Alle rettigheter tilhører New Home Inc.</p>
+            </div>
+        </footer>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+        <script>
+            jQuery(document).ready(function(){
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery.js"></script>
@@ -108,8 +127,7 @@
                 }
             });
 
-        });
-    </script>
-</body>
-
+        </script>
+        
+    </body>
 </html>
