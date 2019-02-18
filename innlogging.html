@@ -1,3 +1,4 @@
+<?php include('db.php') ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,17 +44,17 @@
         <div class="main">
             <div class="container">	
                 <div class="row" style="color: white;">
-                    <h2><strong>Logg inn til New Home</strong></h2>
-                    <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="position: center;"> -->
-                        <!-- Start form -->
+                    
+                    
                         <form>
-                          <div class="form-group" action="logginn.php">
+                            <h2><strong>Logg inn til New Home</strong></h2>
+                            <div class="form-group" action="innlogging.html">
                             <label for="InputEmail">E-mail</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            <input type="email" class="form-control" id="InputEmail1" placeholder="Email">
                         </div>
                         <div class="form-group">
                             <label for="InputPassword">Passord</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Passord">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Passord"alue="<?php echo $password; ?>">
                         </div>
                         <div class="form-check">
                             <button class="btn btn-info" type="button" name="showpassword" id="showpassword" value="Show Password">Vis
@@ -61,25 +62,26 @@
                             <button type="submit" class="btn btn-primary">Logg Inn</button>
                         </div>
                     </form>
-                    <h2><strong>Ny bruker</strong></h2>
-                    <form action="reg.php">
+                    
+                    <form action="innlogging.html" style="margin-left: 20%;">
+                        <h2><strong>Ny bruker</strong></h2>
                         <div class="form-group">
                             <label for="newEmail">Din Mail</label>
-                            <input type="email" class="form-control" placeholder="mail@eksempel.no">
+                            <input type="email" class="form-control" placeholder="mail@eksempel.no"  value="<?php echo $email; ?>">
                         </div>
                         <div class="form-group">
                             <label for="newPass">Passord</label>
-                            <input type="password" id="newPass" placeholder="Passord">
+                            <input type="password" id="newPass" class="form-control" placeholder="Passord"  value="<?php echo $password; ?>">
                         </div>
                         <div class="form-group">
                             <label>Fornavn</label>
-                            <input type="text" placeholder="Fornavn">
+                            <input type="text" class="form-control" placeholder="Fornavn"  value="<?php echo $fornavn; ?>">
                         </div>
                         <div class="form-group">
                             <label>Etternavn</label>
-                            <input type="text" placeholder="Etternavn">
+                            <input type="text" class="form-control" placeholder="Etternavn"  value="<?php echo $etternavn; ?>">
                         </div>
-                        <button type="submit">Registrer</button>
+                        <button class="btn btn-primary" type="submit">Registrer</button>
                     </form>
                 </div>
             </div>
