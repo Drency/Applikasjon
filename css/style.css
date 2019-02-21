@@ -1,56 +1,37 @@
-* {
-    margin: auto;
+/* Generell styling */
+html{
+    background-color:rgb(29, 28, 28);  
+}
+body {
+    background-color:rgb(29, 28, 28);
+    max-width: 100%;
+    overflow-x: hidden;
+    margin: 2px;
+    
 }
 
-.header{
-    height: 20%;
-    width: 100%;
-    background-color: #393f4d;
+#navbar {
+    background-color: #383838;
+    color:white;
 }
 
-.header img {
-    height: 200px;
-    background-color: white;
+#bg-color{
+    background-color:rgb(29, 28, 28);
+    color:white;
+}
 
-}
-.header ul li{
-    display: inline-block;
-    width: 200px;
-    padding: 10px;
-}
-.header ul li a{
-    text-decoration: none;
+
+
+/*Index styling*/
+#index-heading{
+    font-family: Georgia, serif;
     color: white;
-
+    display:block;
+    background-color:rgb(29, 28, 28);
+    margin:0;
 }
 
-.header a:hover{
-    color: grey;
+/*about.html styling*/
+#no-border{
+    border:none;
 }
-
-.current{
-    color: grey;
-    display: inline-block;
-    margin-left: 50%;
-}
-
-.link{
-    display: inline-block;
-    margin-left: 50%;
-
-}
-
-body{
-    background-color: #e1e8f0;
-}
-
-#container{
-    display: block;
-    margin-left: 40%;
-    margin-top: 10%;
-}
-
-#container label{
-    margin-top: 10%;
-}
-
