@@ -1,7 +1,8 @@
 CREATE TABLE Brukere (
     PersonID int UNIQUE NOT NULL AUTO_INCREMENT,
-    Email varchar(255),
-    Passord varchar(45),
+    brukernavn varchar(100) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Passord varchar(45) NOT NULL,
     PRIMARY KEY (PersonID)
 );
 
