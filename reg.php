@@ -30,26 +30,38 @@
         </div>
     </nav>
 	
-  <form method="post" action="reg.php" style="color: white;">
-  	<?php include('errors.php'); ?>
-  	<div class="input-group">
-  	  <label>Username</label>
-  	  <input type="text" name="username" value="<?php echo $username; ?>">
-  	</div>
-  	<div class="input-group">
-  	  <label>Email</label>
-  	  <input type="email" name="email" value="<?php echo $email; ?>">
-  	</div>
-  	<div class="input-group">
-  	  <label>Password</label>
-  	  <input type="password" name="password_1">
-  	</div>
-  	<div class="input-group">
-  	  <button type="submit" class="btn" name="reg_user">Register</button>
-  	</div>
-  	<p>
-  		Already a member? <a href="login.php">Sign in</a>
-  	</p>
-  </form>
+  <form method="post" action="reg.php" style="color: white; margin-left: 5%;">
+        
+        <h2><strong>Registrer deg til New Home!</strong></h2>
+        <div class="form-group">
+            <label>Brukernavn</label>
+            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="username" value="<?php echo $username; ?>">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="email" value="<?php echo $email; ?>">
+        </div>
+        <div class="form-group">
+            <label>Passord</label>
+            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password" value="<?php echo $password; ?>">
+        </div>
+        
+        <div class="form-check">
+            <button type="submit" class="btn btn-primary" name="reg_user">Registrer deg!</button>
+        </div>
+        <p>
+            Allerede medlem? <a href="login.php">Logg inn!</a>
+        </p>
+        <?php include('errors.php'); ?>
+    </form>
+
+
+  <!-- jQuery CDN - Slim version (=without AJAX) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
 </body>
 </html>
