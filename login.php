@@ -9,6 +9,18 @@
 </head>
 
 <body style="background-color:rgb(29, 28, 28)">
+<!-- <script>
+        function pass() {
+            var x = document.getElementById("passID");
+            if (x.type === "password") {
+                x.type = "text";
+            }
+            else{
+                x.type = "password";
+            }
+
+        }
+    </script> -->
     <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
         <a class="navbar-brand" href="index.html"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -41,17 +53,18 @@
         </div>
         <div class="form-group">
             <label for="InputPassword">Passord</label>
-            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password">
+            <input type="password" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password" id="passID">
         </div>
         <div class="form-check">
             <button type="submit" class="btn btn-primary" name="login_user">Logg Inn</button>
+            <button class="btn btn-primary" onclick="pass()">Vis passord</button>
         </div>
         <p>
             Ikke medlem? <a href="reg.php">Registrer deg!</a>
         </p>
         <?php include('errors.php'); ?>
     </form>
-    
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -59,6 +72,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+
 </body>
 
 </html>
