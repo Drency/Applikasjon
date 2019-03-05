@@ -16,9 +16,16 @@
 
 <head>
     <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 </head>
+<?php
+    $query = "SELECT MappeNavn FROM bibliotek, mapper WHERE $username = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.MappeNavn";
+    $resultat = mysqli_query($db, $query);
+?>
 
 <body style="background-color:rgb(29, 28, 28)">
     <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
@@ -43,10 +50,19 @@
 
         </div>
     </nav>
-    <div class="content" style="color:white;">
-        <div id="left" class="container">
+    <div class="container" style="color:white;">
+        <div class="row">
+            <div class="col-4" style="background-color: white;">
+                
+
+                <button class="btn btn-primary">Ny mappe</button>
+            </div>
+            <div class="col-8" style="background-color: red;">
+                <button class="btn btn-primary">Test</button>
+            </div>
 
         </div>
+    </div>
 
 
 
@@ -56,8 +72,8 @@
 
         <!-- logged in user information -->
         <?php  if (isset($_SESSION['username'])) : ?>
-        <p>Welcome <strong>
-                <?php echo $_SESSION['username']; ?></strong></p>
+        <!-- <p>Welcome <strong>
+                <?php echo $_SESSION['username']; ?></strong></p> -->
         <?php endif ?>
     </div>
     <!-- jQuery CDN - Slim version (=without AJAX) -->

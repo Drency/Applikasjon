@@ -35,3 +35,11 @@ body {
 #no-border{
     border:none;
 }
+
+/*index.php styling*/
+#leftside{
+    width : 300px;
+    height : 700px;
+    background-color: white;
+
+}
