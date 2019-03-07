@@ -7,7 +7,7 @@ CREATE TABLE Brukere (
 );
 
 CREATE TABLE Bilbliotek (
-    bibID int UNIQUE NOT NULL,
+    bibID int UNIQUE NOT NULL AUTO_INCREMENT,
     bibNavn varchar(45),
     PersonID int,
     PRIMARY KEY (bibID),
