@@ -57,7 +57,7 @@
     <!-- Container for main elements -->
     <div class="container" style="color:white;">
         <div class="row">
-            <div id="leftside" class="col-4" style="background-color: white;">
+            <div id="leftside" class="col-4 text-center" style="background-color: white;">
 
                 <button class="btn btn-primary" style="margin-top: 400px;" onclick="nyMappe()">Ny mappe</button>
             </div>
