@@ -57,7 +57,7 @@
         </div>
         <div class="form-check">
             <button type="submit" class="btn btn-primary" name="login_user">Logg Inn</button>
-            <button class="btn btn-primary" onclick="pass()">Vis passord</button>
+            <input type="checkbox" onclick="passVis()">Vis passord
         </div>
         <p>
             Ikke medlem? <a href="reg.php">Registrer deg!</a>
@@ -65,6 +65,16 @@
         <?php include('errors.php'); ?>
     </form>
 
+    <script>
+function passVis() {
+  var y = document.getElementById("passID");
+  if (y.type === "password") {
+    y.type = "text";
+    } else {
+    y.type = "password";
+  }
+}
+</script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
