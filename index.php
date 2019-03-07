@@ -22,10 +22,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
 </head>
-<?php
+
+<!-- <?php
+    $query = "";
+    $resultat = "";
     $query = "SELECT MappeNavn FROM bibliotek, mapper WHERE $username = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.MappeNavn";
     $resultat = mysqli_query($db, $query);
-?>
+?> -->
 
 <body style="background-color:rgb(29, 28, 28)">
     <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
@@ -50,15 +53,16 @@
 
         </div>
     </nav>
+
+    <!-- Container for main elements -->
     <div class="container" style="color:white;">
         <div class="row">
-            <div class="col-4" style="background-color: white;">
-                
+            <div id="leftside" class="col-4" style="background-color: white;">
 
-                <button class="btn btn-primary">Ny mappe</button>
+                <button class="btn btn-primary" style="margin-top: 400px;" onclick="nyMappe()">Ny mappe</button>
             </div>
             <div class="col-8" style="background-color: red;">
-                <button class="btn btn-primary">Test</button>
+                <!-- <button class="btn btn-primary">Test</button> -->
             </div>
 
         </div>
@@ -82,6 +86,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script>
+    function nyMappe(){
+        var mappenavn = prompt("Navnet til mappen: ");
+
+        var button = document.createElement('button');
+        button.innerHTML = mappenavn;
+
+        button.onclick = function(){
+            alert("Her skal mappe komme opp!");
+        }
+
+        // var div = document.getElementById("leftside");
+        document.getElementById("leftside").appendChild(button);
+        
+
+    }
+
+
+    </script>
 
 </body>
 
