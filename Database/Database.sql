@@ -8,7 +8,6 @@ CREATE TABLE Brukere (
 
 CREATE TABLE Bibliotek (
     bibID int UNIQUE NOT NULL AUTO_INCREMENT,
-    bibNavn varchar(45),
     PersonID int,
     PRIMARY KEY (bibID),
     FOREIGN KEY (PersonID) REFERENCES Brukere(PersonID)

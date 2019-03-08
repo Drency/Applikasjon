@@ -101,7 +101,6 @@
         // var div = document.getElementById("leftside");
         document.getElementById("leftside").appendChild(button);
         
-
     }
 
 
