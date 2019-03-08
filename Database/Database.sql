@@ -6,7 +6,7 @@ CREATE TABLE Brukere (
     PRIMARY KEY (PersonID)
 );
 
-CREATE TABLE Bilbliotek (
+CREATE TABLE Bibliotek (
     bibID int UNIQUE NOT NULL AUTO_INCREMENT,
     bibNavn varchar(45),
     PersonID int,
@@ -19,7 +19,7 @@ CREATE TABLE Mapper (
     MappeNavn varchar(45),
     bibID int, 
     PRIMARY KEY (mapID),
-    FOREIGN KEY (bibID) REFERENCES Bilbliotek(bibID)
+    FOREIGN KEY (bibID) REFERENCES Bibliotek(bibID)
 );
 
 CREATE TABLE Links (
