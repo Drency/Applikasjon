@@ -65,12 +65,10 @@
                 
 
                 <button class="btn btn-primary" style="margin-top:2%;" onclick="nyMappe()">Ny mappe</button>
-                <div id="btn-container">
-                
-                </div>
+                <div id="btn-container"></div>
             </div>
             <div class="col-8" style="background-color: red;">
-                <!-- <button class="btn btn-primary">Test</button> -->
+            
             </div>
 
         </div>
