@@ -61,9 +61,13 @@
     <!-- Container for main elements -->
     <div class="container" style="color:white;">
         <div class="row">
-            <div id="leftside" class="col-4 text-center" style="background-color: white;">
+            <div id="leftside" class="col-4 text-center flex-column" style="background-color: white;">
+                
 
-                <button class="btn btn-primary" style="margin-top: 400px;" onclick="nyMappe()">Ny mappe</button>
+                <button class="btn btn-primary" style="margin-top:2%;" onclick="nyMappe()">Ny mappe</button>
+                <div id="btn-container">
+                
+                </div>
             </div>
             <div class="col-8" style="background-color: red;">
                 <!-- <button class="btn btn-primary">Test</button> -->
@@ -98,13 +102,14 @@
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
         button.className += "btn btn-primary";
+        button.style ="margin-left: 10%; margin-top: 15%;"
 
         button.onclick = function(){
             loadBib();
         }
 
         // var div = document.getElementById("leftside");
-        document.getElementById("leftside").appendChild(button);
+        document.getElementById("btn-container").appendChild(button);
         
     }
 
