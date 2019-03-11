@@ -1,5 +1,6 @@
-<?php 
-  session_start(); 
+<?php
+    include('db.php');
+
 
   if (!isset($_SESSION['username'])) {
   	$_SESSION['msg'] = "You must log in first";
@@ -10,6 +11,12 @@
   	unset($_SESSION['username']);
   	header("location: login.php");
   }
+
+  $query = "SELECT MappeNavn FROM bibliotek, mapper WHERE '$username' = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.MappeNavn";
+  $resultat = mysqli_query($db, $query);
+
+  $ant = "SELECT COUNT(mapper.mapID) FROM mapper WHERE '$username' = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.bibID";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,10 +31,7 @@
 </head>
 
 <!-- <?php
-    $query = "";
-    $resultat = "";
-    $query = "SELECT MappeNavn FROM bibliotek, mapper WHERE $username = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.MappeNavn";
-    $resultat = mysqli_query($db, $query);
+    
 ?> -->
 
 <body style="background-color:rgb(29, 28, 28)">
@@ -93,13 +97,18 @@
 
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
+        button.className += "btn btn-primary";
 
         button.onclick = function(){
-            alert("Her skal mappe komme opp!");
+            loadBib();
         }
 
         // var div = document.getElementById("leftside");
         document.getElementById("leftside").appendChild(button);
+        
+    }
+
+    function loadBib(){
         
     }
 
