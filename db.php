@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // initializing variables
 $username = "";
 $email    = "";
@@ -84,16 +85,20 @@ if (isset($_POST['data'])){
 
   $getbibID = "SELECT bibID
   FROM bibliotek AS bib, brukere AS b
-  WHERE b.brukernavn = '$username' AND b.PersonID = bib.PersonID;";
-
-  $statement = mysqli_query($db, $getbibID);
-  $bibID = $statement->fetchObject();
+  WHERE b.brukernavn = '$username' AND b.PersonID = bib.PersonID;"; 
 
 
   $nyMappe = "INSERT INTO mapper(mapID, MappeNavn, bibID)
-    VALUES('1','$mappenavn', '$bibID')";
+    VALUES('1','$mappenavn', '1')";
 
   mysqli_query($db, $nyMappe);
+
+  /*$updateMappe = "UPDATE mapper
+  SET bibID = '$getbibID'
+  Where MappeNavn = '$mappenavn'";
+
+  mysqli_query($db, $updateMappe);*/
+
 }
 
 ?>

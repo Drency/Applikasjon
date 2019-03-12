@@ -90,8 +90,9 @@
         type: 'POST', 
         url: 'db.php',
         data: { data : mappenavn },
-        success: function(data, textStatus, jqXHR){
-            console.log(data);
+        success: function(data){
+            console.log(mappenavn);
+            alert(name);
         }
         });
 
