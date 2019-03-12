@@ -8,7 +8,7 @@
 </head>
 <body style="background-color:rgb(29, 28, 28)">
 <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
-        <a class="navbar-brand" href="index.html"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
+        <a class="navbar-brand" href="index.php"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -17,10 +17,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="use.html">Hjelp</a>
+                    <a class="nav-link" href="use.php">Hjelp</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">Om oss</a>
+                    <a class="nav-link" href="about.php">Om oss</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="login.php">Logg inn</a>
