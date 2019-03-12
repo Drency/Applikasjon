@@ -30,9 +30,6 @@
         crossorigin="anonymous">
 </head>
 
-<!-- <?php
-    
-?> -->
 
 <body style="background-color:rgb(29, 28, 28)">
     <nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
@@ -75,16 +72,11 @@
     </div>
 
 
-
-
-
-
-
-        <!-- logged in user information -->
-        <?php  if (isset($_SESSION['username'])) : ?>
-        <!-- <p>Welcome <strong>
-                <?php echo $_SESSION['username']; ?></strong></p> -->
-        <?php endif ?>
+    <!-- logged in user information -->
+    <?php  if (isset($_SESSION['username'])) : ?>
+    <!-- <p>Welcome <strong>
+        <?php echo $_SESSION['username']; ?></strong></p> -->
+    <?php endif ?>
     </div>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
