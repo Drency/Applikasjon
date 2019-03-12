@@ -28,6 +28,8 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
 </head>
 
 
@@ -72,15 +74,8 @@
     </div>
 
 
-    <!-- logged in user information -->
-    <?php  if (isset($_SESSION['username'])) : ?>
-    <!-- <p>Welcome <strong>
-        <?php echo $_SESSION['username']; ?></strong></p> -->
-    <?php endif ?>
-    </div>
-    
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
@@ -90,24 +85,29 @@
     function nyMappe(){
         var mappenavn = prompt("Navnet til mappen: ");
 
+        $.ajax({
+        type: 'POST', 
+        url: 'db.php',
+        data: mappenavn,
+        success: function(data, textStatus, jqXHR)
+        {
+        console.log(data);
+        }
+        });
+
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
         button.className += "btn btn-primary";
-        button.style ="margin-left: 10%; margin-top: 15%;"
+        button.style ="margin-left: 10%; margin-top: 15%;";
 
-        button.onclick = function(){
-            loadBib();
-        }
+       /* button.onclick = function(){
+            
+        }*/
 
         // var div = document.getElementById("leftside");
         document.getElementById("btn-container").appendChild(button);
         
     }
-
-    function loadBib(){
-        
-    }
-
 
     </script>
 

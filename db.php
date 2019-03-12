@@ -78,4 +78,10 @@ if (isset($_POST['login_user'])) {
   }
 }
 
+//AJAX 
+if (isset($_POST['data'])){
+  $query = "INSERT INTO mapper(mappeNavn, bibID)
+    VALUES('$data', '1')";
+}
+
 ?>
