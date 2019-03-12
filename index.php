@@ -69,6 +69,7 @@
             <div class="col-8" style="background-color: red;">
             
             </div>
+            
 
         </div>
     </div>
@@ -84,14 +85,13 @@
     <script>
     function nyMappe(){
         var mappenavn = prompt("Navnet til mappen: ");
-
+        
         $.ajax({
         type: 'POST', 
         url: 'db.php',
-        data: mappenavn,
-        success: function(data, textStatus, jqXHR)
-        {
-        console.log(data);
+        data: { data : mappenavn },
+        success: function(data, textStatus, jqXHR){
+            console.log(data);
         }
         });
 
@@ -106,6 +106,8 @@
 
         // var div = document.getElementById("leftside");
         document.getElementById("btn-container").appendChild(button);
+
+        
         
     }
 

@@ -80,8 +80,20 @@ if (isset($_POST['login_user'])) {
 
 //AJAX 
 if (isset($_POST['data'])){
-  $query = "INSERT INTO mapper(mappeNavn, bibID)
-    VALUES('$data', '1')";
+  $mappenavn = mysqli_real_escape_string($db, $_POST['data']);
+
+  $getbibID = "SELECT bibID
+  FROM bibliotek AS bib, brukere AS b
+  WHERE b.brukernavn = '$username' AND b.PersonID = bib.PersonID;";
+
+  $statement = mysqli_query($db, $getbibID);
+  $bibID = $statement->fetchObject();
+
+
+  $nyMappe = "INSERT INTO mapper(mapID, MappeNavn, bibID)
+    VALUES('1','$mappenavn', '$bibID')";
+
+  mysqli_query($db, $nyMappe);
 }
 
 ?>
