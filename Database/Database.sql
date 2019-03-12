@@ -14,7 +14,7 @@ CREATE TABLE Bibliotek (
 );
 
 CREATE TABLE Mapper (
-    mapID int UNIQUE NOT NULL,
+    mapID int UNIQUE NOT NULL AUTO_INCREMENT,
     MappeNavn varchar(45),
     bibID int, 
     PRIMARY KEY (mapID),
@@ -22,9 +22,11 @@ CREATE TABLE Mapper (
 );
 
 CREATE TABLE Links (
+    linkID int UNIQUE NOT NULL AUTO_INCREMENT,
     LinkNavn varchar(45),
+    Linken varchar(100),
     mapID int(10),
-    PRIMARY KEY (mapID),
+    PRIMARY KEY (linkID),
     FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
 );
 
@@ -32,7 +34,7 @@ CREATE TABLE Filer (
     filID int UNIQUE NOT NULL AUTO_INCREMENT,
     filLink text,
     mapID int(10),
-    PRIMARY KEY (mapID),
+    PRIMARY KEY (filID),
     FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
 );
 
@@ -40,9 +42,8 @@ CREATE TABLE Bilder (
     bildeID int UNIQUE NOT NULL AUTO_INCREMENT,
     bildeLink text, 
     mapID int(10),
-    bibID int(10),
-    PRIMARY KEY(bibID),
-    FOREIGN KEY (bibID) REFERENCES Mapper(mapID)
+    PRIMARY KEY(bildeID),
+    FOREIGN KEY (mapID) REFERENCES Mapper(mapID)
 );
 
 DELIMITER $$
