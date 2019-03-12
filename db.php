@@ -66,7 +66,8 @@ if (isset($_POST['login_user'])) {
   }
 
   if (count($errors) == 0) {
-  	$password = md5($password);
+    $password = md5($password);
+    
   	$query = "SELECT * FROM brukere WHERE brukernavn='$username' AND Passord='$password'";
   	$results = mysqli_query($db, $query);
   	if (mysqli_num_rows($results) == 1) {
@@ -83,10 +84,35 @@ if (isset($_POST['login_user'])) {
 if (isset($_POST['name'])){
   $mappenavn = mysqli_real_escape_string($db, $_POST['name']);
 
-  $nyMappe = "INSERT INTO mapper(MappeNavn)
-    VALUES('$mappenavn');";
+  $getbibID = "SELECT bibID 
+  FROM bibliotek AS bib, brukere AS b 
+  WHERE b.BrukerNavn = 'a' AND b.PersonID = bib.PersonID;"; 
 
-  mysqli_query($db, $nyMappe);
+  $query_getBibId = mysqli_real_escape_string($db, $getbibID);
+  
+  if (!$result = mysqli_query($db, $query_getBibId)) {
+    die(json_encode(["status" => "failure", "name" => $mappenavn, "error" => $db->error, "query" => $query_getBibId]));
+  }
+  
+  if ($result->num_rows >= 1)
+  {
+    $result = $result->fetch_object();
+
+    $id = $result->bibId;
+  
+    $nyMappe = "INSERT INTO mapper(MappeNavn, bibID)
+      VALUES('$mappenavn', '1');";
+
+    if (!mysqli_query($db, $nyMappe)) {
+      die(json_encode(["status" => "failure", "name" => $nyMappe]));
+      //echo $db->error;
+    } else {
+      die(json_encode(["status" => "success", "name" => 'null']));
+    }
+  } else {
+  // Bruker eksisterer ikke eller kunne ikke finnes
+  die(json_encode(["status" => "success", "name" => $mappenavn]));
+  }
 }
 
 ?>

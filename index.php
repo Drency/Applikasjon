@@ -1,5 +1,9 @@
 <?php
-    include('db.php');
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    require_once 'db.php';
 
 
   if (!isset($_SESSION['username'])) {
@@ -86,15 +90,21 @@
     function nyMappe(){
         var mappenavn = prompt("Navnet til mappen: ");
         
+        alert(mappenavn);
+
         $.ajax({
         type: 'POST', 
         url: 'db.php',
+        data: { success: "true", name: mappenavn },
         dataType: 'json',
-        data: { name : mappenavn },
         success: function(name){
-            console.log(mappenavn);
-            alert(name);
-        }
+            console.log("Success: " + mappenavn);
+            alert("Name: " + name.name + ", status: " + name.status + "\nError: " + name.error + "\nQuery:\n" + name.query);
+            console.log(name.query);
+        },
+        error: function(jqxhr, status, exception) {
+             alert("Exception: " + exception + ", status: " + status + "\nJqhxr: " + jqxhr.mappenavn);
+         }
         });
 
         var button = document.createElement('button');
