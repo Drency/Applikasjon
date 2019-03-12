@@ -1,45 +1,29 @@
+<!DOCTYPE html>
 <html>
- <head>
-  <title>PHP Test</title>
- </head>
- <body>
-    <button onclick="nyLink()">Test knapp</button>
+<body>
+<button onclick="show()"></button>
+<!-- <div id="test"></div> -->
 
-    <p id="terje"></p>
 
-    <div id="test" style="margin-top:100px; width:100px; height:100px;"></div>
-    <script>
-        function nyLink(){
-        
-        //Lager form
-        var form = document.createElement("form");
-        
-        var navnLabel = document.createElement("p");
-        navnLabel.innerHTML = "Link navnet";
-        var navn = document.createElement("input");
-        
-        var linkLabel = document.createElement("p");
-        linkLabel.innerHTML = "URL:";
-        var link = document.createElement("input");
+<form action="upload.php" id="MyForm" method="post" enctype="multipart/form-data" style="display: none;">
+    Select image to upload:
+    <input type="file" name="photoimg" id="photoimg">
+    <input type="submit" value="Upload Image" name="submit">
+</form> 
 
-        var submit = document.createElement("button");
-        submit.innerHTML = "Submit";
-        submit.style = "margin-top:5px;";
-            
-        //Legger inn elementene i form
-        form.appendChild(navnLabel);
-        form.appendChild(navn);
-        form.appendChild(linkLabel);
-        form.appendChild(link);
-        form.appendChild(submit);
-
-        //Legger for til på siden
-        document.getElementById("test").appendChild(form);
+<script>
+    function show(){
+        var i = 1;
+        var form = document.getElementById("MyForm");
+        if(i == 1){
+            form.style = "display: block;";
+            i == 0;
+        }else if(i == 0){
 
         }
+    }
 
-        
 
-    </script>
- </body>
+</script>
+</body>
 </html>
