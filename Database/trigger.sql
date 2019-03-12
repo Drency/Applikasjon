@@ -1,4 +1,5 @@
-DROP TRIGGER IF EXISTS Konsistens;
+-- Trigger for oppretting av bibliotek for nye brukere --
+DROP TRIGGER IF EXISTS Bib;
 DELIMITER $$
 CREATE TRIGGER Bib AFTER INSERT ON brukere
 FOR EACH ROW

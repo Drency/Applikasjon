@@ -89,8 +89,9 @@
         $.ajax({
         type: 'POST', 
         url: 'db.php',
-        data: { data : mappenavn },
-        success: function(data){
+        dataType: 'json',
+        data: { name : mappenavn },
+        success: function(name){
             console.log(mappenavn);
             alert(name);
         }
@@ -105,10 +106,7 @@
             
         }*/
 
-        // var div = document.getElementById("leftside");
         document.getElementById("btn-container").appendChild(button);
-
-        
         
     }
 
