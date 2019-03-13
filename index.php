@@ -26,22 +26,8 @@
 function nyMappe(){
     var mappenavn = prompt("Navnet til mappen: ");
     
-    alert(mappenavn);
-    $.ajax({
-    type: 'POST', 
-    url: 'db.php',
-    data: { success: "true", name: mappenavn },
-    dataType: 'json',
-    success: function(name){
-        console.log("Success: " + mappenavn);
-        alert("Name: " + name.name + ", status: " + name.status + "\nError: " + name.error + "\nQuery:\n" + name.query);
-        console.log(name.query);
-    },
-    error: function(jqxhr, status, exception) {
-         alert("Exception: " + exception + ", status: " + status + "\nJqhxr: " + jqxhr.mappenavn);
-     }
-    });
     
+
     var button = document.createElement('button');
     button.innerHTML = mappenavn;
     button.className += "btn btn-primary";
@@ -50,6 +36,7 @@ function nyMappe(){
    /* button.onclick = function(){
         
     }*/
+
     document.getElementById("btn-container").appendChild(button);
     
 }

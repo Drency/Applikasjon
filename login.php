@@ -1,12 +1,13 @@
-<?php 
-    require_once __DIR__ . "/include/header.php";
-    require_once __DIR__ . '/include/classes/check_user.class.php';
-    require_once __DIR__ . '/include/classes/warning.class.php';
+<?php
+require_once __DIR__ . "/include/header.php";
+require_once __DIR__ . '/include/classes/check_user.class.php';
+require_once __DIR__ . '/include/classes/warning.class.php';
 
 if (isset($_POST['login_user'])) {
-    if (user_check::is_user($_POST['username']))
-    {
-        
+    if (check_user::is_user($_POST['username'], $_POST['passord'])) {
+        header("Location: index.php");
+    } else {
+        echo Warning::danger("Feil brukernavn / passord", "Brukernavnet eller passordet du skrev inn er feil!")->display();
     }
 }
     
@@ -20,7 +21,7 @@ if (isset($_POST['login_user'])) {
     </div>
     <div class="form-group">
         <label for="InputPassword">Passord</label>
-        <input type="password" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password" id="passID">
+        <input type="password" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="passord" id="passID">
     </div>
     <div class="form-check">
         <button type="submit" class="btn btn-primary" name="login_user">Logg Inn</button>

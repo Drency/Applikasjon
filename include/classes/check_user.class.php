@@ -4,7 +4,6 @@ class check_user
 {
 
     private static $user = null;
-    private static $keep_logged_in;
 
     public static function validate(Array $userdata)
     {
@@ -19,7 +18,9 @@ class check_user
         $query_check_user = "SELECT `id`, `brukernavn`, `email`, `passord` FROM brukere WHERE `brukernavn` = :username";
 
         $statement = Db::getPDO() ->prepare($query_check_user);
-        $statement->execute([":username" => $userdata["username"]]);
+        $statement->execute([
+            ":username" => $userdata["username"]
+        ]);
         $user = $statement.fetchObject();
 
 
@@ -98,8 +99,15 @@ class check_user
 
     public static function is_user($username, $passord)
     {
-        $query_is_user = "SELECT `brukernavn`, `passord` FROM `brukere` WHERE `passord` = :passord AND `brukernavn` = :brukernavn";
+
+        $query_is_user = "SELECT `brukernavn`, `passord` FROM `brukere` WHERE `brukernavn` = :brukernavn AND `passord` = :passord";
 
         $statement = Db::getPDO()->prepare($query_is_user);
+        $statement->execute([
+            ":brukernavn" => $username,
+            ":passord" => $passord
+        ]);
+
+        return $statement->rowCount();
     }
 }
