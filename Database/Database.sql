@@ -8,29 +8,29 @@ CREATE TABLE brukere (
 
 CREATE TABLE bibliotek (
     bibId int UNIQUE NOT NULL AUTO_INCREMENT,
-    id int,
+    id int(10),
     PRIMARY KEY (bibId),
     FOREIGN KEY (id) REFERENCES brukere(id)
 );
 
 CREATE TABLE mapper (
     mapId int UNIQUE NOT NULL AUTO_INCREMENT,
-    MappeNavn varchar(45),
-    bibId int, 
+    mappeNavn varchar(45),
+    bibId int(10), 
     PRIMARY KEY (mapId),
     FOREIGN KEY (bibId) REFERENCES bibliotek(bibId)
 );
 
 CREATE TABLE links (
     linkId int UNIQUE NOT NULL AUTO_INCREMENT,
-    LinkNavn varchar(45),
+    linkNavn varchar(45),
     linkUrl varchar(100),
     mapId int(10),
     PRIMARY KEY (linkId),
     FOREIGN KEY (mapId) REFERENCES Mapper(mapId)
 );
 
-CREATE TABLE Filer (
+CREATE TABLE filer (
     filId int UNIQUE NOT NULL AUTO_INCREMENT,
     filLink text,
     mapId int(10),
@@ -38,7 +38,7 @@ CREATE TABLE Filer (
     FOREIGN KEY (mapId) REFERENCES Mapper(mapId)
 );
 
-CREATE TABLE Bilder (
+CREATE TABLE bilder (
     bildeID int UNIQUE NOT NULL AUTO_INCREMENT,
     bildeLink text, 
     mapId int(10),
@@ -48,9 +48,9 @@ CREATE TABLE Bilder (
 
 CREATE TABLE cookies(
     cookieId int UNIQUE NOT NULL AUTO_INCREMENT,
-    cookieSesssion varchar(64) NOT NULL,
+    cookieSession varchar(64) NOT NULL,
     userAgent varchar(32),
-    id int,
+    id int(10),
     PRIMARY KEY(cookieId),
     FOREIGN KEY (id) REFERENCES brukere(id)
 );

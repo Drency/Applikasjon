@@ -1,50 +1,50 @@
-INSERT INTO filer (filLink, mapID)
+INSERT INTO filer (filLink, mapId)
 VALUES ('abc.com', 1)
 
-INSERT INTO filer (filLink, mapID)
-VALUES ('qweqe.liu', 2)
+INSERT INTO filer (filLink)
+VALUES ('qweqe.liu')
 
-INSERT INTO filer (filLink, mapID)
-VALUES ('ccss.com', 3)
+INSERT INTO filer (filLink)
+VALUES ('ccss.com')
 
-INSERT INTO filer (filLink, mapID)
-VALUES ('asswwqc.com', 4)
+INSERT INTO filer (filLink)
+VALUES ('asswwqc.com')
 
-INSERT INTO filer (filLink, mapID)
-VALUES ('ahhgfgc.com', 5)
-
-
-
-
-INSERT INTO links (LinkNavn, mapID)
-VALUES ('Java', 1) 
-
-INSERT INTO links (LinkNavn, mapID)
-VALUES ('sql', 2) 
-
-INSERT INTO links (LinkNavn, mapID)
-VALUES ('org', 3) 
-
-INSERT INTO links (LinkNavn, mapID)
-VALUES ('skole', 4) 
-
-INSERT INTO links (LinkNavn, mapID)
-VALUES ('html', 5) 
+INSERT INTO filer (filLink)
+VALUES ('ahhgfgc.com')
 
 
 
 
-INSERT INTO bilder (bildeLink, mapID)
-VALUES ('katt.yjk', 1) 
+INSERT INTO links (linkNavn)
+VALUES ('Java') 
 
-INSERT INTO bilder (bildeLink, mapID)
-VALUES ('hund.li', 2) 
+INSERT INTO links (linkNavn)
+VALUES ('sql') 
 
-INSERT INTO bilder (bildeLink, mapID)
-VALUES ('sql.hgj', 3) 
+INSERT INTO links (linkNavn)
+VALUES ('org') 
 
-INSERT INTO bilder (bildeLink, mapID)
-VALUES ('hus.gfh', 4) 
+INSERT INTO links (linkNavn)
+VALUES ('skole') 
 
-INSERT INTO bilder (bildeLink, mapID)
-VALUES ('aqwe.hj', 5) 
+INSERT INTO links (linkNavn)
+VALUES ('html') 
+
+
+
+
+INSERT INTO bilder (bildeLink)
+VALUES ('katt.yjk') 
+
+INSERT INTO bilder (bildeLink)
+VALUES ('hund.li') 
+
+INSERT INTO bilder (bildeLink)
+VALUES ('sql.hgj') 
+
+INSERT INTO bilder (bildeLink)
+VALUES ('hus.gfh') 
+
+INSERT INTO bilder (bildeLink)
+VALUES ('aqwe.hj') 
