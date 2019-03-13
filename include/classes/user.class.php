@@ -24,4 +24,9 @@ class User
             $this->logged_in = true;
         }
     }
+
+    public function getUser()
+    {
+        
+    }
 }
