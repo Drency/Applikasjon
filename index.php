@@ -1,7 +1,9 @@
 <?php
 
     //Setter inn header
-    require_once 'classes/header.php';
+    require_once __DIR__ . "/include/header.php";
+    require_once __DIR__ . '/include/classes/check_user.class.php';
+    require_once __DIR__ . '/include/classes/warning.class.php';
 
 ?>
 
