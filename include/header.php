@@ -40,7 +40,12 @@ session_start();
                     <a class="nav-link" href="about.php">Om oss</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Logg ut</a>
+                <?php if(isset($_SESSION['id'])): ?>
+                    <a class="nav-link" href="logout.php" style="text-decoration:none">Logg ut</a>
+                <?php else: ?>
+                    <a class="nav-link" href="login.php" style="text-decoration:none">Logg inn</a>
+                <?php endif; ?>
+                    <!-- <a class="nav-link" href="login.php">Logg ut</a> -->
                 </li>
             </ul>
 

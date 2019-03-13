@@ -26,4 +26,5 @@
 </div>
 <div style="height: 555px;" id="bg-color"></div>
 <?php
+// Legger inn footer
 include_once __DIR__ . '/include/footer.php';

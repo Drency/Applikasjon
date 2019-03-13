@@ -38,12 +38,6 @@ class check_user
         if (self::$user !== null) {
             return true;
         }
-            //??
-        if (User::$logged_in) {
-            $keep_logged_in = true;
-        } else {
-            logout();
-        }
     }
 
     public static function logout()

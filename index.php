@@ -1,6 +1,6 @@
 <?php
 
-    //Setter inn header og footer fra header.php
+    //Setter inn header
     require_once 'classes/header.php';
 
 ?>
@@ -52,3 +52,7 @@ function nyMappe(){
     
 }
 </script>
+
+<!-- Legger inn footer -->
+<?php
+include_once __DIR__ . '/include/footer.php';
