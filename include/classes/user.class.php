@@ -9,9 +9,9 @@ class User{
 
     public function __construct($userID) {
         $userId = (int) $userId;
-        $query_get_user = "SELECT `brukernavn`, `email` FROM `brukere` WHERE `id` = :id";
+        $get_user = "SELECT `brukernavn`, `email` FROM `brukere` WHERE `id` = :id";
 
-        $statement = Db::getPdo()->prepare($query_get_user);
+        $statement = Db::getPdo()->prepare($get_user);
         $statement->execute([":id" => $userID]);
 
         if ($statement->rowCount()){
@@ -22,35 +22,6 @@ class User{
             $this->brukerNavn = $user->brukernavn;
             $this->email = $user->email; 
             $this->logged_in = true;
-        }
-    }
-
-    public static function authenciate(Array $credentials){
-        $this->userId = null;
-
-        if (!array_key_exists("brukernavn", $credentials))
-            throw new InvalidArgumentException("A username has not been provided.");
-
-        if (!array_key_exists("passord", $credentials))
-            throw new InvalidArgumentException("A password has not been provided.");
-
-        $query_get_user = "SELECT `id` FROM `brukere` WHERE `passord` = :hash AND `brukernavn` = :brukernavn";
-        $statement = Db::getPdo()->prepare($query_get_user);
-
-        $statement->execute([
-            ":hash" => md5($credentials["passord"]),
-            ":brukernavn" => $credentials["brukernavn"]
-        ]);
-
-        $user = $statement->fetchObject();
-
-        if ($statement->rowCount())
-        {
-            return $user->id;
-        }
-        else
-        {
-            return -1;
         }
     }
 

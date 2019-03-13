@@ -1,67 +1,50 @@
-<?php include('db.php') ?>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Registration system PHP and MySQL</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
-</head>
-<body style="background-color:rgb(29, 28, 28)">
-<nav class="navbar navbar-expand-lg navbar-light navbar-dark" style="background-color: #383838; color:white;">
-        <a class="navbar-brand" href="landingpage.php"><img src="img/FerdigLogo.png" alt="logo" style="height:100px;"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="use.php">Hjelp</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.php">Om oss</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Logg inn</a>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
-	
-  <form method="post" action="reg.php" style="color: white; margin-left: 5%;">
-        
-        <h2><strong>Registrer deg til New Home!</strong></h2>
-        <div class="form-group">
-            <label>Brukernavn</label>
-            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="username" value="<?php echo $username; ?>">
-        </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="email" value="<?php echo $email; ?>">
-        </div>
-        <div class="form-group">
-            <label>Passord</label>
-            <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password" value="<?php echo $password; ?>">
-        </div>
-        
-        <div class="form-check">
-            <button type="submit" class="btn btn-primary" name="reg_user">Registrer deg!</button>
-        </div>
-        <p>
-            Allerede medlem? <a href="login.php">Logg inn!</a>
-        </p>
-        <?php include('errors.php'); ?>
-    </form>
+<?php 
+    require_once __DIR__ . "/include/header.php";
+    require_once __DIR__ . "/include/classes/check_user.class.php";
 
 
-  <!-- jQuery CDN - Slim version (=without AJAX) -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
-</body>
-</html>
+   /* if(check_user::username_exists($_POST["username"] != $_POST["username"])){
+        $error = "Brukernavnet eksisterer allerede";
+        die();
+    }else{
+        if(check_user::email_exists($_POST['email'] != $_POST['username'])){
+            $error = "Email er allerede registrert";
+            die();
+        }else{
+            $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
+            if($id > 0){
+                header('location: login.php');
+            }
+        }
+    }*/
+
+?>
+
+<form role="form" method="POST" action="">   
+    <h2><strong>Registrer deg til New Home!</strong></h2>
+    <div class="form-group">
+        <label>Brukernavn</label>
+        <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="username" value="">
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="email" >
+    </div>
+    <div class="form-group">
+        <label>Passord</label>
+        <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password">
+    </div>
+    
+    <div class="form-check">
+        <button type="submit" class="btn btn-primary" name="reg_user">Registrer deg!</button>
+    </div>
+
+    <p>
+        Allerede medlem? <a href="login.php">Logg inn!</a>
+    </p>
+
+    <p class="text-center" syle="color: red;">
+        <?php echo $message?>
+    </p>
+</form>
