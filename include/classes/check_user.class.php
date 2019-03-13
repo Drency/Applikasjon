@@ -1,16 +1,20 @@
 <?php
-    include __DIR__ . 'user.class.php';
-class check_user{
+
+class check_user
+{
 
     private static $user = null;
     private static $keep_logged_in;
 
-    public static function validate(Array $userdata){
-        if(!array_key_exists("brukernavn", $userdata))
+    public static function validate(Array $userdata)
+    {
+        if (!array_key_exists("brukernavn", $userdata)) {
             throw new InvalidArgumentException("Brukernavn må oppgis!");
+        }
 
-        if(!array_key_exists("passord", $userdata))
+        if (!array_key_exists("passord", $userdata)) {
             throw new InvalidArgumentException("Passord må oppgis!");
+        }
 
         $query_check_user = "SELECT `id`, `brukernavn`, `email`, `passord` FROM brukere WHERE `brukernavn` = :username";
 
@@ -19,42 +23,47 @@ class check_user{
         $user = $statement.fetchObject();
 
 
-        if($user !== false){
+        if ($user !== false) {
             return true;
-            $hash = $user ->passord;
+            $hash = $user->passord;
 
-            if(passord_check($userdata["passord"], $hash)){
+            if (passord_check($userdata["passord"], $hash)) {
                 return $user->id;
             }
         }
+    }
 
-    } 
-
-    public static function loggedIn(){
-        if (self::$user !== null)
+    public static function loggedIn()
+    {
+        if (self::$user !== null) {
             return true;
-
+        }
             //??
-        if(User::$logged_in){
+        if (User::$logged_in) {
             $keep_logged_in = true;
-        }else{
+        } else {
             logout();
         }
     }
 
-    public static function logout(){
+    public static function logout()
+    {
         User::$logged_in == false;
     }
 
-    public static function register(Array $userdata){
-        if(!array_key_exists("brukernavn", $userdata))
+    public static function register(Array $userdata)
+    {
+        if (!array_key_exists("username", $userdata)) {
             throw new InvalidArgumentException("Brukernavn må oppgis!");
+        }
 
-        if(!array_key_exists("passord", $userdata))
+        if (!array_key_exists("passord", $userdata)) {
             throw new InvalidArgumentException("Passord må oppgis!");
+        }
 
-        if(!array_key_exists("email", $userdata))
+        if (!array_key_exists("email", $userdata)) {
             throw new InvalidArgumentException("Email må fylles ut!");
+        }
         
         $query_reg_user = "INSERT INTO brukere(`brukernavn`, `email`, `passord`) VALUES(:username, :email, :passord)";
 
@@ -67,33 +76,24 @@ class check_user{
         ]);
 
         $return_id = $db->lastInsertId();
-
-        if(!self::attempt(["username" => $userdata["username"], "passord" => $userdata["passord"], "keep_logged_in" => 0])){
-            return -1;
-        }else{
-            return $return_id;
-        }
-
     }
 
-    public static function username_exists($username){
+    public static function username_exists($username) {
         $query_is_user = "SELECT `brukernavn` FROM `brukere` WHERE `brukernavn` = :username";
 
         $statement = Db::getPDO()->prepare($query_is_user);
-        $statement->execute(":username" -> $username);
+        $statement->execute([
+            ":username" => $username
+        ]);
 
-        if($statement ->fetchColumn() > 0){
-            return "feil";
-        }else{
-            return $username;
-        }
+        return $statement->rowCount();
     }
 
-    public static function email_exists($email){
+    public static function email_exists($email) {
         $query_email_exists = "SELECT `brukernavn` FROM `brukere` WHERE `email` = :email";
 
         $statement = Db::getPDO()->prepare($query_email_exists);
-        $statement->execute([":email" -> $email]);
+        $statement->execute(array(":email" => $email));
 
         if($statement ->fetchColumn() > 0){
             return "feil";
