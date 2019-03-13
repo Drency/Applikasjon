@@ -7,24 +7,24 @@ require_once __DIR__ . '/include/classes/warning.class.php';
 $error = "";
 
 if (isset($_POST['reg_user'])) {
-    if (!isset($_POST['username'])) {
+    if (strlen($_POST['username']) < 2) {
         echo Warning::danger("Manglende informasjon", "Brukernavn er ikke opplyst!")->display();
     } else {
-        if (check_user::username_exists($_POST['username'])) {
+        if (check_user::username_exists($_POST['username']) || strlen($_POST['username']) > 2) {
             echo Warning::danger("Eksisterer allerede", "Brukernavn eksisterer allerede!")->display();
         } else {
             if (check_user::email_exists($_POST['email'] != $_POST['email'])) {
                 echo Warning::danger("Eksisterer allerede", "E-posten eksisterer allerede!")->display();
             } else {
                 $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
-                echo Warning::success("Suksessfull registrering", "Velkommen {$_POST["username"]}!")->display();
+                echo Warning::success("Ny bruker registrert", "Velkommen {$_POST["username"]}!")->display();
             }
         }
     }
 }
 ?>
 
-<form role="form" method="POST" action="">   
+<form role="form" method="POST" action="" style="margin-left:2%;">   
     <h2><strong>Registrer deg til New Home!</strong></h2>
     <div class="form-group">
         <label>Brukernavn</label>

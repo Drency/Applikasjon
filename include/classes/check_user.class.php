@@ -89,17 +89,17 @@ class check_user
         return $statement->rowCount();
     }
 
-    public static function email_exists($email) {
+    public static function email_exists($email)
+    {
         $query_email_exists = "SELECT `brukernavn` FROM `brukere` WHERE `email` = :email";
 
         $statement = Db::getPDO()->prepare($query_email_exists);
         $statement->execute(array(":email" => $email));
 
-        if($statement ->fetchColumn() > 0){
+        if ($statement ->fetchColumn() > 0) {
             return "feil";
-        }else{
+        } else {
             return $email;
         }
-
     }
 }

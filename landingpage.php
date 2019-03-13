@@ -1,7 +1,5 @@
 <?php 
-
-    require_once __DIR__ . '/include/header.php';
-    
+    require_once __DIR__ . '/include/header.php';  
 ?>
 
 
@@ -27,3 +25,5 @@
     </div>
 </div>
 <div style="height: 555px;" id="bg-color"></div>
+<?php
+include_once __DIR__ . '/include/footer.php';
