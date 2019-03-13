@@ -18,7 +18,6 @@ if (isset($_POST['reg_user'])) {
             } else {
                 $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
                 echo Warning::success("Suksessfull registrering", "Velkommen {$_POST["username"]}!")->display();
-                //header('location: login.php');
             }
         }
     }

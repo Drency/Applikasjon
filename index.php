@@ -3,23 +3,6 @@
     //Setter inn header og footer fra header.php
     require_once 'classes/header.php';
 
-
-/* Slette?
-  if (!isset($_SESSION['username'])) {
-  	$_SESSION['msg'] = "You must log in first";
-  	header('location: login.php');
-  }
-  if (isset($_GET['logout'])) {
-  	session_destroy();
-  	unset($_SESSION['username']);
-  	header("location: login.php");
-  }
-
-  $query = "SELECT MappeNavn FROM bibliotek, mapper WHERE '$username' = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.MappeNavn";
-  $resultat = mysqli_query($db, $query);
-
-  $ant = "SELECT COUNT(mapper.mapID) FROM mapper WHERE '$username' = brukere.PersonID AND brukere.PersonID = bibliotek.PersonID AND bibliotek.PersonID = bibliotek.bibID AND bibliotek.bibID = mapper.bibID";
- */
 ?>
 
 

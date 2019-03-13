@@ -1,8 +1,7 @@
 <?php
 
-class Warning 
+class Warning
 {
-
     private $title;
     private $message;
     private $type;
