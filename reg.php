@@ -13,11 +13,15 @@ if (isset($_POST['reg_user'])) {
         if (check_user::username_exists($_POST['username'])) {
             echo Warning::danger("Eksisterer allerede", "Brukernavn eksisterer allerede!")->display();
         } else {
-            if (check_user::email_exists($_POST['email'])) {
-                echo Warning::danger("Eksisterer allerede", "E-posten eksisterer allerede!")->display();
+            if (strlen($_POST['email']) < 2) {
+                echo Warning::danger("Manglende informasjon", "E-post er ikke angitt")->display();
             } else {
-                $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
-                echo Warning::success("Ny bruker registrert", "Velkommen {$_POST["username"]}!")->display();
+                if (check_user::email_exists($_POST['email'])) {
+                    echo Warning::danger("Eksisterer allerede", "E-posten eksisterer allerede!")->display();
+                } else {
+                    $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
+                    echo Warning::success("Ny bruker registrert", "Velkommen {$_POST["username"]}!")->display(); 
+                }
             }
         }
     }

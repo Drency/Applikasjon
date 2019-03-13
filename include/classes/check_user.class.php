@@ -95,4 +95,11 @@ class check_user
         
         return $statement->rowCount();
     }
+
+    public static function is_user($username, $passord)
+    {
+        $query_is_user = "SELECT `brukernavn`, `passord` FROM `brukere` WHERE `passord` = :passord AND `brukernavn` = :brukernavn";
+
+        $statement = Db::getPDO()->prepare($query_is_user);
+    }
 }
