@@ -78,7 +78,8 @@ class check_user
         $return_id = $db->lastInsertId();
     }
 
-    public static function username_exists($username) {
+    public static function username_exists($username) 
+    {
         $query_is_user = "SELECT `brukernavn` FROM `brukere` WHERE `brukernavn` = :username";
 
         $statement = Db::getPDO()->prepare($query_is_user);
@@ -94,12 +95,10 @@ class check_user
         $query_email_exists = "SELECT `brukernavn` FROM `brukere` WHERE `email` = :email";
 
         $statement = Db::getPDO()->prepare($query_email_exists);
-        $statement->execute(array(":email" => $email));
-
-        if ($statement ->fetchColumn() > 0) {
-            return "feil";
-        } else {
-            return $email;
-        }
+        $statement->execute([
+            ":email" => $email
+        ]);
+        
+        return $statement->rowCount();
     }
 }

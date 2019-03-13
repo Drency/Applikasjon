@@ -10,10 +10,10 @@ if (isset($_POST['reg_user'])) {
     if (strlen($_POST['username']) < 2) {
         echo Warning::danger("Manglende informasjon", "Brukernavn er ikke opplyst!")->display();
     } else {
-        if (check_user::username_exists($_POST['username']) || strlen($_POST['username']) > 2) {
+        if (check_user::username_exists($_POST['username'])) {
             echo Warning::danger("Eksisterer allerede", "Brukernavn eksisterer allerede!")->display();
         } else {
-            if (check_user::email_exists($_POST['email'] != $_POST['email'])) {
+            if (check_user::email_exists($_POST['email'])) {
                 echo Warning::danger("Eksisterer allerede", "E-posten eksisterer allerede!")->display();
             } else {
                 $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
