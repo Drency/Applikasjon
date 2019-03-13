@@ -41,9 +41,9 @@ session_start();
                 </li>
                 <li class="nav-item">
                 <?php if(isset($_SESSION['id'])): ?>
-                    <a class="nav-link" href="logout.php" style="text-decoration:none">Logg ut</a>
+                    <a class="nav-link text-danger" href="logout.php" style="text-decoration:none">Logg ut</a>
                 <?php else: ?>
-                    <a class="nav-link text-danger" href="login.php" style="text-decoration:none">Logg inn</a>
+                    <a class="nav-link" href="login.php" style="text-decoration:none">Logg inn</a>
                 <?php endif; ?>
                 </li>
             </ul>

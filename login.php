@@ -2,7 +2,8 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . '/include/classes/check_user.class.php';
 require_once __DIR__ . '/include/classes/warning.class.php';
-echo $_SERVER['HTTP_USER_AGENT'];
+
+// echo $_SERVER['HTTP_USER_AGENT'];
 
 if (isset($_POST['login_user'])) {
     if (check_user::is_user($_POST['username'], $_POST['passord'])) {

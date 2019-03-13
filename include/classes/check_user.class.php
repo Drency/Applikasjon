@@ -108,6 +108,28 @@ class check_user
             ":passord" => $passord
         ]);
 
-        return $statement->rowCount();
+        $query_get_id = "SELECT `id` FROM `brukere` WHERE `brukernavn` = :username";
+
+        $get_id = Db::getPdo()->prepare($query_get_id);
+        $get_id->execute([
+            ":username" => $username
+        ]);
+
+        $id = $get_id->fetchColumn();
+        
+
+        if ($statement->rowCount()) {
+            setcookie($username, $_SERVER['HTTP_USER_AGENT'], time() + (86400 * 30), "/");
+            $query_insert_cookies = "INSERT INTO `cookies`(`cookieSession`, `userAgent`, `id`) VALUES(:username, :user_agent, :id)";
+            $stmt = Db::getPdo()->prepare($query_insert_cookies);
+            $stmt->execute([
+                ":username" => $username,
+                ":user_agent" => $_SERVER['HTTP_USER_AGENT'],
+                ":id" => $id
+            ]);
+            return $statement->rowCount();
+        } else {
+            return false;
+        }
     }
 }
