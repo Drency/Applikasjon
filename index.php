@@ -20,16 +20,16 @@ if (isset($_POST['mname'])) {
         ":username" => $_SESSION['user']
     ]);
         
-    $bibId = $getBib -> fetchColumn();
+    $bibId = $getBib['bibId'] -> fetchColumn();
 
     
 
-    $query_set_mappenavn = "INSERT INTO mapper(mappeNavn, bibID) VALUES(:mappenavn, 1);";
+    $query_set_mappenavn = "INSERT INTO mapper(mappeNavn, bibID) VALUES(:mappenavn, :bibId);";
     
     $statement = $db->prepare($query_set_mappenavn);
     $statement->execute([
-        ":mappenavn" => $mappenavn
-        // ":bibId" => $bibId
+        ":mappenavn" => $mappenavn,
+        ":bibId" => $bibId
     ]);
 }
 
