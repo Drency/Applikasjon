@@ -1,11 +1,12 @@
 <?php
 
-include('db.php');
+require_once __DIR__ . ('/classes/db.class.php');
+require_once __DIR__ . ('/classes/db.class.php');
 
 
 $session_id='$username'; // User session id
 
-$path = "uploads/";
+$path = "../uploads/";
 
 $valid_formats = array("jpg", "png", "gif", "bmp","jpeg");
 
@@ -21,7 +22,6 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST") {
         $tmp = $_FILES['photoimg']['tmp_name'];
 
         if(move_uploaded_file($tmp, $path.$actual_image_name)) {
-          mysql_query("UPDATE users SET profile_image='$actual_image_name' WHERE uid='$session_id'");
           echo "<img src='uploads/".$actual_image_name."' class='preview'>";
         }
         else
@@ -37,4 +37,11 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST") {
     echo "Please select image..!";
   exit;
 }
-   ?>
+
+  require_once __DIR__ . 'header.php';
+?>
+
+
+
+   <?php
+   require_once __DIR__ . 'footer.php';
