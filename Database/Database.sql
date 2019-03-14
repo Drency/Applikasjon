@@ -46,15 +46,6 @@ CREATE TABLE bilder (
     FOREIGN KEY (mapId) REFERENCES Mapper(mapId)
 );
 
-CREATE TABLE cookies(
-    cookieId int UNIQUE NOT NULL AUTO_INCREMENT,
-    cookieSession varchar(64) NOT NULL,
-    userAgent varchar(32),
-    id int(10),
-    PRIMARY KEY(cookieId),
-    FOREIGN KEY (id) REFERENCES brukere(id)
-);
-
 DELIMITER $$
 CREATE TRIGGER bib
 AFTER INSERT ON brukere

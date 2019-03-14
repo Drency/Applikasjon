@@ -13,17 +13,17 @@
             <div class="card" id="bg-color">
                 <h5 class="card-title">Brukerveiledning</h5>
                 <p class="card-text">Trykk på knappen under om du trenger hjelp til bruken av New Home.</p>
-                <a href="use.html" class="btn btn-light">Brukerveiledning</a>
+                <a href="use.php" class="btn btn-light">Brukerveiledning</a>
             </div>
             <div class="card" id="bg-color">
                 <h5 class="card-title">Om Oss</h5>
                 <p class="card-text">Om du vil lære mer om oss i New Home kan du trykke på knappen under.</p>
-                <a href="about.html" class="btn btn-light">Brukerveiledning</a>
+                <a href="about.php" class="btn btn-light">Brukerveiledning</a>
             </div>
                 <div class="card" id="bg-color">
                 <h5 class="card-title">Registrering / Logg inn</h5>
                 <p class="card-text">Her kan du registrere deg som ny bruker eller logg inn hvis du er eksisterende bruker</p>
-                <a href="login.php" class="btn btn-light">Brukerveiledning</a>
+                <a href="login.php" class="btn btn-light">Logg inn</a>
             </div>
         </div>
     </div>
