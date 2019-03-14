@@ -1,6 +1,9 @@
 <?php
-    require_once __DIR__ . "/include/header.php";
     require_once __DIR__ . '/include/classes/warning.class.php';
+    require_once __DIR__ . "/include/header.php";
+    session_start();
+    $_SESSION = array();
+    session_destroy();
 
     echo Warning::success("Logget ut", "Du er nå logget ut.")->display();
 ?>

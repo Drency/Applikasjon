@@ -1,5 +1,5 @@
 <?php
-
+session_start();
     //Setter inn header
     require_once __DIR__ . "/include/header.php";
     require_once __DIR__ . '/include/classes/check_user.class.php';
@@ -26,7 +26,7 @@
 function nyMappe(){
     var mappenavn = prompt("Navnet til mappen: ");
     
-    
+
 
     var button = document.createElement('button');
     button.innerHTML = mappenavn;

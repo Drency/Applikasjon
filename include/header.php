@@ -7,13 +7,6 @@ require_once 'classes/db.class.php';
 require_once 'classes/check_user.class.php';
 require_once 'classes/warning.class.php';
 
-if (isset($_POST['logout'])) {
-    session_start();
-    setcookie(session_name(), '', 100);
-    session_unset();
-    session_destroy();
-    heading("location : landingpage.php");
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +40,7 @@ if (isset($_POST['logout'])) {
                     <a class="nav-link" href="about.php">Om oss</a>
                 </li>
                 <li class="nav-item">
-                <?php if (isset($_SESSION)) : ?>
+                <?php if (isset($_SESSION['user'])) : ?>
                     <a class="nav-link text-danger" href="logout.php" style="text-decoration:none" name="logout">Logg ut</a>
                 <?php else : ?>
                     <a class="nav-link" href="login.php" style="text-decoration:none">Logg inn</a>

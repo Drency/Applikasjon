@@ -57,8 +57,6 @@ class check_user
             ":email" => $userdata["email"],
             ":passord" => $userdata["passord"] //Bytte med hash når pw blir hashet
         ]);
-
-        $return_id = $db->lastInsertId();
     }
 
     public static function username_exists($username)
@@ -95,7 +93,8 @@ class check_user
             ":brukernavn" => $username,
             ":passord" => $passord
         ]);
-
+        session_start();
+        $_SESSION['user'] = $username;
         return $statement->rowCount();
     }
 }
