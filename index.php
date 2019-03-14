@@ -1,9 +1,37 @@
 <?php
 session_start();
-    //Setter inn header
+
+    //Requires
     require_once __DIR__ . "/include/header.php";
     require_once __DIR__ . '/include/classes/check_user.class.php';
     require_once __DIR__ . '/include/classes/warning.class.php';
+    
+if (isset($_POST['mname'])) {
+    
+    $mappenavn = $_POST['mname'];
+
+    
+    $query_get_bibId = "SELECT `bibId` FROM `bibliotek`, `brukere` WHERE brukere.brukernavn = :username AND brukere.id = bibliotek.bibId;";
+    
+    $db = Db::getPdo();
+    
+    $getBib = $db -> prepare($query_get_bibId);
+    $getBib->execute([
+        ":username" => $_SESSION['user']
+    ]);
+        
+    $bibId = $getBib -> fetchColumn();
+
+    
+
+    $query_set_mappenavn = "INSERT INTO mapper(mappeNavn, bibID) VALUES(:mappenavn, 1);";
+    
+    $statement = $db->prepare($query_set_mappenavn);
+    $statement->execute([
+        ":mappenavn" => $mappenavn
+        // ":bibId" => $bibId
+    ]);
+}
 
 ?>
 
@@ -26,7 +54,16 @@ session_start();
 function nyMappe(){
     var mappenavn = prompt("Navnet til mappen: ");
     
-
+    $.ajax({
+        type: "POST",
+        url: 'index.php',
+        data: {mname : mappenavn},
+        success: function(mname)
+        {
+            console.log(mname);
+            console.log(mappenavn);
+        }
+    });
 
     var button = document.createElement('button');
     button.innerHTML = mappenavn;
@@ -41,7 +78,6 @@ function nyMappe(){
     
 }
 </script>
-
 <!-- Legger inn footer -->
 <?php
 include_once __DIR__ . '/include/footer.php';
