@@ -93,6 +93,7 @@ class check_user
             ":brukernavn" => $username,
             ":passord" => $passord
         ]);
+
         session_start();
         $_SESSION['user'] = $username;
         return $statement->rowCount();

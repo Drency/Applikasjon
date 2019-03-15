@@ -2,7 +2,7 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . '/include/classes/check_user.class.php';
 require_once __DIR__ . '/include/classes/warning.class.php';
-session_start();
+// session_start();
 // echo $_SERVER['HTTP_USER_AGENT'];
 
 if (isset($_SESSION['user'])) {
@@ -11,7 +11,7 @@ if (isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['login_user'])) {
-    if (!check_user::is_user($_POST['username'], $_POST['passord'])) {
+    if (check_user::is_user($_POST['username'], $_POST['passord'])) {
         header("Location: index.php");
     } else {
         echo Warning::danger("Feil brukernavn / passord", "Brukernavnet eller passordet du skrev inn er feil!")->display();
