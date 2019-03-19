@@ -54,8 +54,8 @@ if (isset($_POST['data'])) {
                 <form class="mt-2">
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
-                    <input type="link" class="" name="linkUrl" placeholder="Bilde URL">
-                    <button type="submit" class="btn btn-primary" name="sendLink">Send</button>
+                    <input type="link" class="" name="linkUrl" placeholder="Link Url">
+                    <button type="submit" class="btn btn-primary" name="sendLink">Legg til</button>
                 </form>
                 <form action="" class="mt-2">
                     <label>Last opp bilde:</label>
@@ -63,9 +63,21 @@ if (isset($_POST['data'])) {
                     <input type="submit" class="btn btn-primary" value="Upload Image" name="submit">
                 </form>
             </div>
-            <ul>
-                <!-- Her skal linker, filer og bilder legges -->
-            </ul> 
+            <div class="content" style="width:600px; height:600px; background-color:white; margin-top:5%;">
+                <ul>
+                    <!-- Her skal linker, filer og bilder legges -->
+                    <li><a style="color:black;">Test link</a></li>
+                    <li><a style="color:black;">Test link2</a></li>
+                </ul> 
+                <hr style="background-color:blue; padding: 2px;">
+                <div class="img" style="color:black; height:100px;">
+                    <!-- <img style="100px"> -->
+                </div>
+                <hr style="background-color:blue; padding: 2px;">
+                <ul>
+                    <li style="color:black;">Fil 1</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
