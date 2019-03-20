@@ -9,7 +9,8 @@ session_start();
     require_once __DIR__ . '/include/classes/mappe.class.php';
     // require_once __DIR__ . '/include/upload.php';
     
-    
+$delete = false;
+
 // Innhenting av mappene til en bruker
 
 $query_get_mapId = "SELECT mappeNavn FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
@@ -56,15 +57,22 @@ if (isset($_POST['data'])) {
 
 ?>
 
+<div class='alert alert-danger' role='alert' style="display:none;" id="sletteMelding">
+    <h4 class='alert-heading'>Sletting av mappe</h4>
+    <p>Trykk på en mappe for å slette den</p>
+</div>
 
     <!-- Container for main elements -->
 <div class="container text-light" onload="lastInn()">
     <div class="row">
         <div class="col-4 text-center flex-column">
             <button class="btn btn-primary mt-2" onclick="nyMappe()">Ny mappe</button>
-            <div id="btn-container"></div>
+            <button class="btn btn-danger mt-2" onclick="slettMappe()">Slett mappe</button>
+            <div id="btn-container">
+            
+            </div>
         </div>
-        <div class="col-8">
+        <div class="col-8" id="main" style="display:none;">
             <div class="flex-box">
                 <form class="mt-2">
                     <label>Legg til link : </label>
@@ -97,18 +105,6 @@ if (isset($_POST['data'])) {
     </div>
 </div>
 
-<!-- <?php
-if (isset($_POST['data'])) {
-    ?>
-    <p>data value: <?php echo $_POST['data'] ?>.</p>
-<?php } else { ?>
-    <p> data not set </p>
-<?php } ?> -->
-
-<!--    
-<script> console.log("<?php echo $query_insert_link ?>")</script>
-<script> console.log("<?php echo $query_get_mapId ?>")</script> -->
-
 <script>
 $(document).ready(function(){
     var jArray = <?php echo json_encode($result); ?>;
@@ -119,11 +115,11 @@ $(document).ready(function(){
         var button = document.createElement('button');
         button.innerHTML = navn;
         button.className += "btn btn-primary btn-block";
-        button.style ="margin-left: 10%; margin-top: 15%; width:70%;";
+        button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
-        /* button.onclick = function(){
-        
-        }*/
+        button.onclick = function(){
+            document.getElementById("main").style = "display:block;";
+        }
 
         document.getElementById("btn-container").appendChild(button);
     }
@@ -150,14 +146,21 @@ function nyMappe(){
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:70%;";
    
-        /* button.onclick = function(){
-        
-        }*/
+        button.onclick = function(){
+            document.getElementById("main").style = "display:block;";
+        }
 
         document.getElementById("btn-container").appendChild(button);
 
     }  
 }
+
+function slettMappe(){
+    document.getElementById("sletteMelding").style = "display:block;";
+    <?php $delete = true; ?>
+
+}
+
 </script>
 <!-- Legger inn footer -->
 <?php
