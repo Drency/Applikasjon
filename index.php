@@ -10,12 +10,27 @@ session_start();
     // require_once __DIR__ . '/include/upload.php';
     
     
+// Innhenting av mappene til en bruker
+
+$query_get_mapId = "SELECT mappeNavn FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
+
+$stmt = Db::getPdo()->prepare($query_get_mapId);
+
+$stmt -> execute([
+    ":username" => $_SESSION['user']
+]);
+
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
     
 if (isset($_POST['sendLink'])) {
     $linknavn = $_POST['linknavn'];
     $linkUrl = $_POST['linkUrl'];
-        
-    $query_get_mapId = "SELECT mapId FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
+        //Henter ut alle mapId... Fix? 
+    // $query_get_mapId = "SELECT mapId FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
     
     $db = Db::getPdo();
     $get_mapId = $db->prepare($query_get_mapId);
@@ -43,7 +58,7 @@ if (isset($_POST['data'])) {
 
 
     <!-- Container for main elements -->
-<div class="container text-light">
+<div class="container text-light" onload="lastInn()">
     <div class="row">
         <div class="col-4 text-center flex-column">
             <button class="btn btn-primary mt-2" onclick="nyMappe()">Ny mappe</button>
@@ -95,6 +110,25 @@ if (isset($_POST['data'])) {
 <script> console.log("<?php echo $query_get_mapId ?>")</script> -->
 
 <script>
+$(document).ready(function(){
+    var jArray = <?php echo json_encode($result); ?>;
+
+    for(var i=0; i<jArray.length; i++){
+
+        var navn = jArray[i].mappeNavn;
+        var button = document.createElement('button');
+        button.innerHTML = navn;
+        button.className += "btn btn-primary btn-block";
+        button.style ="margin-left: 10%; margin-top: 15%; width:70%;";
+   
+        /* button.onclick = function(){
+        
+        }*/
+
+        document.getElementById("btn-container").appendChild(button);
+    }
+});
+
 function nyMappe(){
     var mappenavn = prompt("Navnet til mappen: ");
     
@@ -113,8 +147,8 @@ function nyMappe(){
     
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
-        button.className += "btn btn-primary";
-        button.style ="margin-left: 10%; margin-top: 15%;";
+        button.className += "btn btn-primary btn-block";
+        button.style ="margin-left: 10%; margin-top: 15%; width:70%;";
    
         /* button.onclick = function(){
         
