@@ -51,8 +51,8 @@ if (isset($_POST['data'])) {
     Mappe::add_mappe($_POST['data']);
 }
 
-if (isset($_POST['name'])) {
-    Mappe::del_mappe($_POST['name']);
+if (isset($_POST['mappename'])) {
+    Mappe::del_mappe($_POST['mappename']);
 }
 
 ?>
@@ -123,13 +123,12 @@ $(document).ready(function(){
         button.onclick = function(){
             if (myBoolean){
                 var name = this.innerHTML;
-                console.log(name);
                 $.ajax({
                     type: "POST",
                     url: "index.php",
                     data: {mappename: name},
                 });
-                // location.reload();
+                location.reload();
             } else {
                 document.getElementById("main").style = "display:block;";
             }
@@ -164,7 +163,7 @@ function nyMappe(){
                     url: "index.php",
                     data: {mappename: name},
                 });
-                // location.reload();
+                location.reload();
             } else {
                 document.getElementById("main").style = "display:block;";
             }
