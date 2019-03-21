@@ -8,11 +8,8 @@ session_start();
     require_once __DIR__ . '/include/classes/warning.class.php';
     require_once __DIR__ . '/include/classes/mappe.class.php';
     // require_once __DIR__ . '/include/upload.php';
-    
-$delete = false;
 
 // Innhenting av mappene til en bruker
-
 $query_get_mapId = "SELECT mappeNavn FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
 
 $stmt = Db::getPdo()->prepare($query_get_mapId);
@@ -51,8 +48,11 @@ if (isset($_POST['sendLink'])) {
 
     
 if (isset($_POST['data'])) {
-    echo $_POST['data'];
     Mappe::add_mappe($_POST['data']);
+}
+
+if (isset($_POST['name'])) {
+    Mappe::del_mappe($_POST['name']);
 }
 
 ?>
@@ -106,7 +106,10 @@ if (isset($_POST['data'])) {
 </div>
 
 <script>
+    var myBoolean = false;
+
 $(document).ready(function(){
+    
     var jArray = <?php echo json_encode($result); ?>;
 
     for(var i=0; i<jArray.length; i++){
@@ -118,9 +121,19 @@ $(document).ready(function(){
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
         button.onclick = function(){
-            document.getElementById("main").style = "display:block;";
+            if (myBoolean){
+                var name = this.innerHTML;
+                console.log(name);
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: {mappename: name},
+                });
+                // location.reload();
+            } else {
+                document.getElementById("main").style = "display:block;";
+            }
         }
-
         document.getElementById("btn-container").appendChild(button);
     }
 });
@@ -135,10 +148,6 @@ function nyMappe(){
            type: "POST",
            url: "index.php",
            data: {data: mappenavn},
-           success: function(data)
-            {
-              console.log(data);
-            }
        });
     
         var button = document.createElement('button');
@@ -147,7 +156,18 @@ function nyMappe(){
         button.style ="margin-left: 10%; margin-top: 15%; width:70%;";
    
         button.onclick = function(){
-            document.getElementById("main").style = "display:block;";
+            if (myBoolean){
+                var name = this.innerHTML;
+                console.log(name);
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: {mappename: name},
+                });
+                // location.reload();
+            } else {
+                document.getElementById("main").style = "display:block;";
+            }
         }
 
         document.getElementById("btn-container").appendChild(button);
@@ -156,9 +176,13 @@ function nyMappe(){
 }
 
 function slettMappe(){
-    document.getElementById("sletteMelding").style = "display:block;";
-    <?php $delete = true; ?>
+    myBoolean = ! myBoolean;
+    if(myBoolean){
+        document.getElementById("sletteMelding").style = "display:block;";
 
+    } else {
+        document.getElementById("sletteMelding").style = "display:none;";
+    }
 }
 
 </script>
