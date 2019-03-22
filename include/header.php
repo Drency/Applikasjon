@@ -41,12 +41,15 @@ require_once 'classes/warning.class.php';
                 </li>
                 <li class="nav-item">
                 <?php if (isset($_SESSION['user'])) : ?>
-                    <a class="nav-link text-danger" href="logout.php" style="text-decoration:none" name="logout">Logg ut</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="index.php">New Home</a>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li>        
+                    <a class="nav-link text-danger" href="logout.php" style="text-decoration:none" name="logout">Logg ut</a>
                 <?php else : ?>
-                    <a class="nav-link" href="login.php" style="text-decoration:none">Logg inn</a>
+                </ul>
+                 <ul class="navbar-nav ml-auto">
+                        <a class="nav-link" href="login.php" style="text-decoration:none;">Logg inn</a>
                 <?php endif; ?>
                 </li>
             </ul>

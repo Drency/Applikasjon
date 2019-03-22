@@ -152,7 +152,7 @@ function nyMappe(){
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
         button.className += "btn btn-primary btn-block";
-        button.style ="margin-left: 10%; margin-top: 15%; width:70%;";
+        button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
         button.onclick = function(){
             if (myBoolean){
