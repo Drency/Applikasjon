@@ -19,6 +19,7 @@ require_once 'classes/warning.class.php';
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     
 </head>
 
@@ -32,7 +33,7 @@ require_once 'classes/warning.class.php';
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto" style="font-size: 1.5em;">
                 <li class="nav-item">
                     <a class="nav-link" href="use.php">Hjelp</a>
                 </li>
@@ -43,13 +44,13 @@ require_once 'classes/warning.class.php';
                 <?php if (isset($_SESSION['user'])) : ?>
                     <a class="nav-link" href="index.php">New Home</a>
                 </ul>
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto"  style="font-size: 1.5em;">
                     <li>        
-                    <a class="nav-link text-danger" href="logout.php" style="text-decoration:none" name="logout">Logg ut</a>
+                    <a class="nav-link text-danger" href="logout.php" style="text-decoration:none" name="logout"><i class="fas fa-sign-out-alt"></i> Logg ut</a>
                 <?php else : ?>
                 </ul>
-                 <ul class="navbar-nav ml-auto">
-                        <a class="nav-link" href="login.php" style="text-decoration:none;">Logg inn</a>
+                 <ul class="navbar-nav ml-auto"  style="font-size: 1.5em;">
+                        <a class="nav-link" href="login.php" style="text-decoration:none;"><i class="fas fa-sign-in-alt"></i> Logg Inn</a>
                 <?php endif; ?>
                 </li>
             </ul>
