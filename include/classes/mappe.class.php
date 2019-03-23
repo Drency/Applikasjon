@@ -68,7 +68,7 @@ class Mappe
         ]);
     }
 
-    public function addLink($mappenavn, $linkNavn, $url)
+    public static function addLink($mappenavn, $linkNavn, $url)
     {
         $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
 

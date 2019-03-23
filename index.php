@@ -29,19 +29,9 @@ if (isset($_POST['mappename'])) {
     Mappe::del_mappe($_POST['mappename']);
 }
 
-if (isset($_POST['sendLink'])) {
-    echo "<script>console.log('runs')</script>";
-    $linkName= $_POST['linknavn'];
-    $url = $_POST['url'];
-    Mappe::addLink($_POST['mapName'], $linkName, $url);
+if (isset($_POST['link'])) {
+    Mappe::addLink($_POST['mapName'], $_POST['linknavn'], $_POST['url']);
 }
-
-// if (isset($_POST['mapName'])) {
-    
-//     if (isset($_POST['url'])) {
-        
-//     }
-// }
 
 ?>
 
@@ -62,11 +52,11 @@ if (isset($_POST['sendLink'])) {
         </div>
         <div class="col-8" id="main" style="display:none;">
             <div class="flex-box">
-                <form class="mt-2">
+                <form role="form" method="POST" id="linkForm" class="mt-2">
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
                     <input type="link" name="url" placeholder="Link Url">
-                    <button type="submit" class="btn btn-primary" name="sendLink">Legg til</button>
+                    <button type="submit" class="btn btn-primary" name="link">Legg til</button>
                 </form>
                 <form action="" class="mt-2">
                     <label>Last opp bilde:</label>
@@ -94,20 +84,12 @@ if (isset($_POST['sendLink'])) {
 </div>
 
 <script>
-var myBoolean = false;
-
+var slette = false;
+$("#theForm").ajaxSubmit({url: 'server.php', type: 'post'})
 // Benytter JQuery og AJAX slik at siden ikke refresher
 $(function () {
     $('form').on('submit', function (e) {
         e.preventDefault(); //Forhindrer siden fra å laste inn på nytt
-        $.ajax({
-            type: 'POST',
-            url: 'index.php',
-            data: $('form'),
-            success: function () {
-                console.log('form was submitted');
-            }
-        });
     });
 });
 
@@ -124,7 +106,7 @@ $(document).ready(function(){
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
         button.onclick = function(){
-            if (myBoolean){
+            if (slette){
                 var name = this.innerHTML;
                 $.ajax({
                     type: "POST",
@@ -135,15 +117,11 @@ $(document).ready(function(){
             } else {
                 document.getElementById("main").style = "display:block;";
                 var mapName = this.innerHTML;
+                var link = document.getElementsByName("link");
                 $.ajax({
                     type: "POST",
                     url: "index.php",
                     data: {mapName: mapName},
-                    success: function(data)
-                    {
-                        console.log(mapName);
-                    }
-                    
                 });
             }
         }
@@ -169,7 +147,7 @@ function nyMappe(){
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
         button.onclick = function(){
-            if (myBoolean){
+            if (slette){
                 var name = this.innerHTML;
                 console.log(name);
                 $.ajax({
@@ -189,8 +167,8 @@ function nyMappe(){
 }
 
 function slettMappe(){
-    myBoolean = ! myBoolean;
-    if(myBoolean){
+    slette = ! slette;
+    if(slette){
         document.getElementById("sletteMelding").style = "display:block;";
 
     } else {
