@@ -22,23 +22,30 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 $linkResultat = "";
-//Innhenting av linker til en mappe
-if (isset($_POST['mapName'])) {
-    $linkResultat = Mappe::getLinks($_POST['mapName']);
-}
+
+
 
 //Klasse kall
 if (isset($_POST['data'])) {
     Mappe::add_mappe($_POST['data']);
 }
 
-if (isset($_POST['mappename'])) {
-    Mappe::del_mappe($_POST['mappename']);
+if (isset($_POST['slettenavn'])) {
+    Mappe::del_mappe($_POST['slettenavn']);
+}
+
+//Innhenting av linker til en mappe
+if (isset($_POST['mappe_navn'])) {
+    $linkResultat = Mappe::getLinks('Testmappe');
 }
 
 if (isset($_POST['add_link'])) {
-    Mappe::addLink($_POST['mapName'], $_POST['linknavn'], $_POST['url']);
+    $linknavn = $_POST['linknavn'];
+    $url = $_POST['url'];
+    Mappe::addLink('Testmappe', $linknavn, $url);
 }
+
+
 
 ?>
 
@@ -61,9 +68,9 @@ if (isset($_POST['add_link'])) {
             <div class="flex-box">
                 <form role="form" method="POST" id="linkForm" class="mt-2">
                     <label>Legg til link : </label>
-                    <input type="text" name="linknavn" placeholder="Navnet til linken" id="linknavn">
+                    <input type="text" name="linknavn" placeholder="Navnet til linken">
                     <input type="link" name="url" placeholder="Link Url">
-                    <button type="submit" class="btn btn-primary" name="add_link">Legg til</button>
+                    <button type="submit" class="btn btn-primary" name="add_link" onclick="sendLink()">Legg til</button>
                 </form>
                 <form action="" class="mt-2">
                     <label>Last opp bilde:</label>
@@ -90,12 +97,10 @@ if (isset($_POST['add_link'])) {
 
 <script>
 var slette = false;
+
     //Henter inn mapper som er i databasen
 $(document).ready(function(){
-    
     var jArray = <?php echo json_encode($result); ?>;
-
-    
 
     for(var i=0; i<jArray.length; i++){
 
@@ -103,6 +108,7 @@ $(document).ready(function(){
         var button = document.createElement('button');
         button.innerHTML = navn;
         button.className += "btn btn-primary btn-block";
+        button.setAttribute("id", navn);
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
         //Funksjonene som eksisterende mapper skal ha
@@ -112,17 +118,23 @@ $(document).ready(function(){
                 $.ajax({
                     type: "POST",
                     url: "index.php",
-                    data: {mappename: name}
+                    data: {slettenavn: name}
                 });
                 location.reload();
             } else {
-                var mapName = this.innerHTML;
+                
+                $(linkList).empty();
+                var mappenavn = this.innerHTML;
+                
                 $.ajax({
                     type: "POST",
                     url: "index.php",
-                    data: {mapName: mapName}
+                    data: {mappe_navn: mappenavn},
+                    success: function(data){
+                        console.log(mappenavn);
+                    }
                 });
-                $(linkList).empty();
+                
                 var linkArray = <?php echo json_encode($linkResultat); ?>;
                 for (var y=0; y<linkArray.length; y++){
                     var linkNavn = linkArray[y].linkNavn;
@@ -140,10 +152,6 @@ $(document).ready(function(){
         }
         document.getElementById("btn-container").appendChild(button);
     }
-
-    // $('form').on('submit', function (e) {
-    //     e.preventDefault(); //Forhindrer siden fra å laste inn på nytt
-    // });
 });
 
     // Ny mappe 
@@ -161,6 +169,7 @@ function nyMappe(){
     
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
+        button.setAttribute("id", navn);
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
 
@@ -172,7 +181,7 @@ function nyMappe(){
                 $.ajax({
                     type: "POST",
                     url: "index.php",
-                    data: {mappename: name},
+                    data: {slettenavn: name},
                 });
                 location.reload();
             } else {
@@ -183,7 +192,9 @@ function nyMappe(){
                     data: {mappe_navn: mapName},
                 });
                 $(linkList).empty();
+
                 var linkArray = <?php echo json_encode($linkResultat); ?>;
+
                 for (var y=0; y<linkArray.length; y++){
                     var linkNavn = linkArray[y].linkNavn;
                     var linkUrl = linkArray[y].linkUrl;

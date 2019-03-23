@@ -3,8 +3,6 @@
 class check_user
 {
 
-    private static $user = null;
-
     public static function validate(Array $userdata)
     {
         if (!array_key_exists("brukernavn", $userdata)) {

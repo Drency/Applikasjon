@@ -92,11 +92,11 @@ class Mappe
         $linkResultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $linkResultat;
-
     }
 
     public static function addLink($navn, $linkNavn, $url)
     {
+
         $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
 
         $getMapId = Db::getPdo()->prepare($query_get_mapId);
@@ -116,7 +116,7 @@ class Mappe
         ]);
         
         if ($checkLink->rowCount()) {
-            die();
+            
         } else {
             $query_add_link = "INSERT INTO links(`linkNavn`, `linkUrl`, `mapId`) VALUES(:linkNavn, :linkUrl, :mapId)";
 
