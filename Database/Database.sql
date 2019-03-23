@@ -33,6 +33,7 @@ CREATE TABLE links (
 CREATE TABLE filer (
     filId int UNIQUE NOT NULL AUTO_INCREMENT,
     filLink text,
+    filNavn text,
     mapId int(10),
     PRIMARY KEY (filId),
     FOREIGN KEY (mapId) REFERENCES Mapper(mapId)
