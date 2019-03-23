@@ -29,11 +29,19 @@ if (isset($_POST['mappename'])) {
     Mappe::del_mappe($_POST['mappename']);
 }
 
-if (isset($_POST['mappeVar'])) {
-    if (isset($_POST['sendLink'])) {
-        Mappe::addLink($_POST['mappeVar'], $_POST['linknavn'], $_POST['linkUrl']);
-    }
+if (isset($_POST['sendLink'])) {
+    echo "<script>console.log('runs')</script>";
+    $linkName= $_POST['linknavn'];
+    $url = $_POST['url'];
+    Mappe::addLink($_POST['mapName'], $linkName, $url);
 }
+
+// if (isset($_POST['mapName'])) {
+    
+//     if (isset($_POST['url'])) {
+        
+//     }
+// }
 
 ?>
 
@@ -57,7 +65,7 @@ if (isset($_POST['mappeVar'])) {
                 <form class="mt-2">
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
-                    <input type="link" name="linkUrl" placeholder="Link Url">
+                    <input type="link" name="url" placeholder="Link Url">
                     <button type="submit" class="btn btn-primary" name="sendLink">Legg til</button>
                 </form>
                 <form action="" class="mt-2">
@@ -88,6 +96,21 @@ if (isset($_POST['mappeVar'])) {
 <script>
 var myBoolean = false;
 
+// Benytter JQuery og AJAX slik at siden ikke refresher
+$(function () {
+    $('form').on('submit', function (e) {
+        e.preventDefault(); //Forhindrer siden fra å laste inn på nytt
+        $.ajax({
+            type: 'POST',
+            url: 'index.php',
+            data: $('form'),
+            success: function () {
+                console.log('form was submitted');
+            }
+        });
+    });
+});
+
 $(document).ready(function(){
     
     var jArray = <?php echo json_encode($result); ?>;
@@ -106,7 +129,7 @@ $(document).ready(function(){
                 $.ajax({
                     type: "POST",
                     url: "index.php",
-                    data: {mappename: name},
+                    data: {mappename: name}
                 });
                 location.reload();
             } else {
@@ -115,7 +138,12 @@ $(document).ready(function(){
                 $.ajax({
                     type: "POST",
                     url: "index.php",
-                    data: {mappeVar: mapName}
+                    data: {mapName: mapName},
+                    success: function(data)
+                    {
+                        console.log(mapName);
+                    }
+                    
                 });
             }
         }
