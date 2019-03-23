@@ -10,9 +10,9 @@ session_start();
     // require_once __DIR__ . '/include/upload.php';
 
 // Innhenting av mappene til en bruker
-$query_get_mapId = "SELECT mappeNavn FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
+$query_get_mapper = "SELECT mappeNavn FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
 
-$stmt = Db::getPdo()->prepare($query_get_mapId);
+$stmt = Db::getPdo()->prepare($query_get_mapper);
 
 $stmt -> execute([
     ":username" => $_SESSION['user']
@@ -20,7 +20,14 @@ $stmt -> execute([
 
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    
+
+$linkResultat = "";
+//Innhenting av linker til en mappe
+if (isset($_POST['mapName'])) {
+    $linkResultat = Mappe::getLinks($_POST['mapName']);
+}
+
+//Klasse kall
 if (isset($_POST['data'])) {
     Mappe::add_mappe($_POST['data']);
 }
@@ -29,7 +36,7 @@ if (isset($_POST['mappename'])) {
     Mappe::del_mappe($_POST['mappename']);
 }
 
-if (isset($_POST['link'])) {
+if (isset($_POST['add_link'])) {
     Mappe::addLink($_POST['mapName'], $_POST['linknavn'], $_POST['url']);
 }
 
@@ -54,9 +61,9 @@ if (isset($_POST['link'])) {
             <div class="flex-box">
                 <form role="form" method="POST" id="linkForm" class="mt-2">
                     <label>Legg til link : </label>
-                    <input type="text" name="linknavn" placeholder="Navnet til linken">
+                    <input type="text" name="linknavn" placeholder="Navnet til linken" id="linknavn">
                     <input type="link" name="url" placeholder="Link Url">
-                    <button type="submit" class="btn btn-primary" name="link">Legg til</button>
+                    <button type="submit" class="btn btn-primary" name="add_link">Legg til</button>
                 </form>
                 <form action="" class="mt-2">
                     <label>Last opp bilde:</label>
@@ -67,8 +74,6 @@ if (isset($_POST['link'])) {
             <div class="content" style="width:600px; height:600px; background-color:white; margin-top:5%;">
                 <ul id="linkList">
                     <!-- Her skal linker, filer og bilder legges -->
-                    <li><a style="color:black;">Test link</a></li>
-                    <li><a style="color:black;">Test link2</a></li>
                 </ul> 
                 <hr style="background-color:blue; padding: 2px;">
                 <div class="img" style="color:black; height:100px;">
@@ -76,7 +81,7 @@ if (isset($_POST['link'])) {
                 </div>
                 <hr style="background-color:blue; padding: 2px;">
                 <ul>
-                    <li style="color:black;">Fil 1</li>
+                    <!-- <li style="color:black;">Fil 1</li> -->
                 </ul>
             </div>
         </div>
@@ -85,17 +90,12 @@ if (isset($_POST['link'])) {
 
 <script>
 var slette = false;
-$("#theForm").ajaxSubmit({url: 'server.php', type: 'post'})
-// Benytter JQuery og AJAX slik at siden ikke refresher
-$(function () {
-    $('form').on('submit', function (e) {
-        e.preventDefault(); //Forhindrer siden fra å laste inn på nytt
-    });
-});
-
+    //Henter inn mapper som er i databasen
 $(document).ready(function(){
     
     var jArray = <?php echo json_encode($result); ?>;
+
+    
 
     for(var i=0; i<jArray.length; i++){
 
@@ -105,6 +105,7 @@ $(document).ready(function(){
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
+        //Funksjonene som eksisterende mapper skal ha
         button.onclick = function(){
             if (slette){
                 var name = this.innerHTML;
@@ -115,20 +116,37 @@ $(document).ready(function(){
                 });
                 location.reload();
             } else {
-                document.getElementById("main").style = "display:block;";
                 var mapName = this.innerHTML;
-                var link = document.getElementsByName("link");
                 $.ajax({
                     type: "POST",
                     url: "index.php",
-                    data: {mapName: mapName},
+                    data: {mapName: mapName}
                 });
+                $(linkList).empty();
+                var linkArray = <?php echo json_encode($linkResultat); ?>;
+                for (var y=0; y<linkArray.length; y++){
+                    var linkNavn = linkArray[y].linkNavn;
+                    var linkUrl = linkArray[y].linkUrl;
+                    var link = document.createElement('li');
+                    var ref = document.createElement('a');
+                    ref.setAttribute("href", linkUrl);
+                    link.appendChild(ref);
+                    link.innerHTML = linkNavn;
+                    link.style ="text-decoration:none; color:black;"
+                    document.getElementById("linkList").appendChild(link);
+                }
+                document.getElementById("main").style = "display:block;";
             }
         }
         document.getElementById("btn-container").appendChild(button);
     }
+
+    // $('form').on('submit', function (e) {
+    //     e.preventDefault(); //Forhindrer siden fra å laste inn på nytt
+    // });
 });
 
+    // Ny mappe 
 function nyMappe(){
     var mappenavn = prompt("Navnet til mappen: ");
     
@@ -145,7 +163,8 @@ function nyMappe(){
         button.innerHTML = mappenavn;
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
-   
+
+            //Funksjonene som nye mapper skal ha
         button.onclick = function(){
             if (slette){
                 var name = this.innerHTML;
@@ -157,6 +176,25 @@ function nyMappe(){
                 });
                 location.reload();
             } else {
+                var mapName = this.innerHTML;
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: {mappe_navn: mapName},
+                });
+                $(linkList).empty();
+                var linkArray = <?php echo json_encode($linkResultat); ?>;
+                for (var y=0; y<linkArray.length; y++){
+                    var linkNavn = linkArray[y].linkNavn;
+                    var linkUrl = linkArray[y].linkUrl;
+                    var link = document.createElement('li');
+                    var ref = document.createElement('a');
+                    ref.setAttribute("href", linkUrl);
+                    link.appendChild(ref);
+                    link.innerHTML = linkNavn;
+                    link.style ="text-decoration:none; color:black;"
+                    document.getElementById("linkList").appendChild(link);
+                }
                 document.getElementById("main").style = "display:block;";
             }
         }
@@ -177,6 +215,7 @@ function slettMappe(){
 }
 
 </script>
-<!-- Legger inn footer -->
+
+    <!-- Legger inn footer -->
 <?php
 include_once __DIR__ . '/include/footer.php';

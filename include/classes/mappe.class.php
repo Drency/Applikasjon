@@ -68,27 +68,67 @@ class Mappe
         ]);
     }
 
-    public static function addLink($mappenavn, $linkNavn, $url)
+    public static function getLinks($navn)
     {
         $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
 
         $getMapId = Db::getPdo()->prepare($query_get_mapId);
 
         $getMapId -> execute([
-            ":mappenavn" => $mappenavn
+            ":mappenavn" => $navn
         ]);
 
-        $mapId = $getMapId->fetchColumn();
+        $mapId = $getMapId ->fetchColumn();
 
-        $query_add_link = "INSERT INTO links(linkNavn, linkUrl, mapId) VALUES(:linkNavn, :linkUrl, :mapId)";
 
-        $statement = Db::getPdo()->prepare($query_add_link);
+        $query_get_links = "SELECT linkNavn, linkUrl FROM links WHERE mapId = :mapId";
 
-        $statement -> execute([
-            ":linknavn" => $linkNavn,
-            ":linkUrl" => $url,
+        $stmt = Db::getPdo()->prepare($query_get_links);
+
+        $stmt -> execute([
             ":mapId" => $mapId
         ]);
 
+        $linkResultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $linkResultat;
+
+    }
+
+    public static function addLink($navn, $linkNavn, $url)
+    {
+        $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
+
+        $getMapId = Db::getPdo()->prepare($query_get_mapId);
+
+        $getMapId -> execute([
+            ":mappenavn" => $navn
+        ]);
+
+        $resultat = $getMapId ->fetchColumn();
+
+        $query_link_exists = "SELECT linkNavn FROM links WHERE linkNavn = :linkNavn";
+
+        $checkLink = Db::getPdo()->prepare($query_link_exists);
+
+        $checkLink -> execute([
+            ":linkNavn" => $linkNavn
+        ]);
+        
+        if ($checkLink->rowCount()) {
+            die();
+        } else {
+            $query_add_link = "INSERT INTO links(`linkNavn`, `linkUrl`, `mapId`) VALUES(:linkNavn, :linkUrl, :mapId)";
+
+            $stmt = Db::getPdo()->prepare($query_add_link);
+
+            $stmt-> execute([
+                ":linkNavn" => $linkNavn,
+                ":linkUrl" => $url,
+                ":mapId" => $resultat
+            ]);
+        }
+
+        
     }
 }
