@@ -20,32 +20,6 @@ $stmt -> execute([
 
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-
-
-    
-if (isset($_POST['sendLink'])) {
-    $linknavn = $_POST['linknavn'];
-    $linkUrl = $_POST['linkUrl'];
-        //Henter ut alle mapId... Fix? 
-    // $query_get_mapId = "SELECT mapId FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
-    
-    $db = Db::getPdo();
-    $get_mapId = $db->prepare($query_get_mapId);
-    $get_mapId->execute([
-        ":username" => $_SESSION['user']
-    ]);
-    $resultat_mapId = $get_mapId->fetchColumn();
-        
-    $query_insert_link = "INSERT INTO links(linkNavn, linkUrl, mapId) VALUES (:linknavn, :linkUrl, :mapId);";
-    $inser_link = $db->prepare($query_insert_link);
-    $inser_link->execute([
-        "linknavn" => $linknavn,
-        ":linkUrl" => $linkUrl,
-        ":mapId" => $resultat_mapId
-    ]);
-}
-
     
 if (isset($_POST['data'])) {
     Mappe::add_mappe($_POST['data']);
@@ -53,6 +27,12 @@ if (isset($_POST['data'])) {
 
 if (isset($_POST['mappename'])) {
     Mappe::del_mappe($_POST['mappename']);
+}
+
+if (isset($_POST['mappeVar'])) {
+    if (isset($_POST['sendLink'])) {
+        Mappe::addLink($_POST['mappeVar'], $_POST['linknavn'], $_POST['linkUrl']);
+    }
 }
 
 ?>
@@ -77,7 +57,7 @@ if (isset($_POST['mappename'])) {
                 <form class="mt-2">
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
-                    <input type="link" class="" name="linkUrl" placeholder="Link Url">
+                    <input type="link" name="linkUrl" placeholder="Link Url">
                     <button type="submit" class="btn btn-primary" name="sendLink">Legg til</button>
                 </form>
                 <form action="" class="mt-2">
@@ -87,7 +67,7 @@ if (isset($_POST['mappename'])) {
                 </form>
             </div>
             <div class="content" style="width:600px; height:600px; background-color:white; margin-top:5%;">
-                <ul>
+                <ul id="linkList">
                     <!-- Her skal linker, filer og bilder legges -->
                     <li><a style="color:black;">Test link</a></li>
                     <li><a style="color:black;">Test link2</a></li>
@@ -106,7 +86,7 @@ if (isset($_POST['mappename'])) {
 </div>
 
 <script>
-    var myBoolean = false;
+var myBoolean = false;
 
 $(document).ready(function(){
     
@@ -131,6 +111,12 @@ $(document).ready(function(){
                 location.reload();
             } else {
                 document.getElementById("main").style = "display:block;";
+                var mapName = this.innerHTML;
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: {mappeVar: mapName}
+                });
             }
         }
         document.getElementById("btn-container").appendChild(button);

@@ -67,4 +67,28 @@ class Mappe
             ":mappenavn" => $navn
         ]);
     }
+
+    public function addLink($mappenavn, $linkNavn, $url)
+    {
+        $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
+
+        $getMapId = Db::getPdo()->prepare($query_get_mapId);
+
+        $getMapId -> execute([
+            ":mappenavn" => $mappenavn
+        ]);
+
+        $mapId = $getMapId->fetchColumn();
+
+        $query_add_link = "INSERT INTO links(linkNavn, linkUrl, mapId) VALUES(:linkNavn, :linkUrl, :mapId)";
+
+        $statement = Db::getPdo()->prepare($query_add_link);
+
+        $statement -> execute([
+            ":linknavn" => $linkNavn,
+            ":linkUrl" => $url,
+            ":mapId" => $mapId
+        ]);
+
+    }
 }
