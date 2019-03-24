@@ -1,16 +1,14 @@
 <?php
 session_start();
 
-    //Requires
-    require_once __DIR__ . '/include/classes/db.class.php';
-    require_once __DIR__ . "/include/header.php";
-    require_once __DIR__ . '/include/classes/check_user.class.php';
-    require_once __DIR__ . '/include/classes/warning.class.php';
-    require_once __DIR__ . '/include/classes/mappe.class.php';
+//Requires
+require_once __DIR__ . '/include/classes/db.class.php';
+require_once __DIR__ . "/include/header.php";
+
     // require_once __DIR__ . '/include/upload.php';
 
 // Innhenting av mappene til en bruker
-$query_get_mapper = "SELECT mappeNavn FROM brukere, bibliotek, mapper WHERE brukere.brukernavn = :username AND bibliotek.id = brukere.id AND bibliotek.bibId = mapper.bibID";
+$query_get_mapper = "SELECT m.mappeNavn, m.mapId FROM brukere b, bibliotek bib, mapper m WHERE b.brukernavn = :username AND bib.id = b.id AND bib.bibId = m.bibID";
 
 $stmt = Db::getPdo()->prepare($query_get_mapper);
 
@@ -27,23 +25,38 @@ $linkResultat = "";
 
 //Klasse kall
 if (isset($_POST['data'])) {
-    Mappe::add_mappe($_POST['data']);
+    $mappeId = Mappe::add_mappe($_POST['data']);
+
+    $response = array();
+
+    if (is_int($mappeId) && mappeId > 0) {
+        $response["mappeId"] = $mappeId;
+    } else {
+        $response["mappeId"] = -1;
+    }
+    echo json_encode($response);
 }
 
 if (isset($_POST['slettenavn'])) {
-    Mappe::del_mappe($_POST['slettenavn']);
+    Mappe::del_mappe($_POST['slettenavn'], $_SESSION['user']);
 }
 
 //Innhenting av linker til en mappe
 if (isset($_POST['folder_name'])) {
     $linkResultat = Mappe::getLinks('Testmappe');
+
+    echo "<br>";
+    var_dump($linkResultat);
+    echo "<br>";
 }
 
-if (isset($_POST['nyLink'])) {
+if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
     $linknavn = $_POST['linknavn'];
     $url = $_POST['url'];
-
-    Mappe::addLink('Testmappe', $linknavn, $url);
+    $folder = $_GET["folder"];
+ 
+    //test er eksempel verdi 
+    Mappe::addLink($folder, $linknavn, $url);
 }
 
 ?>
@@ -52,6 +65,7 @@ if (isset($_POST['nyLink'])) {
     <h4 class='alert-heading'>Sletting av mappe</h4>
     <p>Trykk på en mappe for å slette den</p>
 </div>
+
 
     <!-- Container for main elements -->
 <div class="container text-light" onload="lastInn()">
@@ -63,7 +77,8 @@ if (isset($_POST['nyLink'])) {
             
             </div>
         </div>
-        <div class="col-8" id="main" style="display:none;">
+    <?php if (isset($_GET["folder"])) { ?>
+        <div class="col-8" id="main">
             <div class="flex-box">
                 <button class="btn btn-primary" onclick="nyLink()">Ny link</button>
                 <button class="btn btn-primary" name="add_img" onclick="nyImg()">Nytt bilde</button>
@@ -81,7 +96,15 @@ if (isset($_POST['nyLink'])) {
             </div>
             <div class="content" style="width:600px; height:600px; margin-top:5%;">
                 <ul id="linkList">
-                    <!-- Her skal linker, filer og bilder legges -->
+                    <?php
+                        
+                        $linkResult = array();
+                        $linkResult = Mappe::getLinks($_GET["folder"]);
+                    
+                    foreach ($linkResult as $link) {
+                        echo  "<li><a href='{$link->getURL()}'>{$link->getName()}</a></li>";
+                    }
+                    ?>
                 </ul> 
                 <hr style="background-color:blue; padding: 2px;">
                 <div class="img" style="color:black; height:100px;">
@@ -95,6 +118,7 @@ if (isset($_POST['nyLink'])) {
         </div>
     </div>
 </div>
+<?php } ?>
 
 <script>
 var slette = false;
@@ -109,10 +133,11 @@ $(document).ready(function(){
     for(var i=0; i<jArray.length; i++){
 
         var navn = jArray[i].mappeNavn;
-        var button = document.createElement('button');
+        var button = document.createElement('a');
         button.innerHTML = navn;
         button.className += "btn btn-primary btn-block";
-        button.setAttribute("id", navn);
+        button.setAttribute("id", jArray[i].mapId);
+        button.setAttribute("href", "?folder=" + jArray[i].mapId);
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
         //Funksjonene som eksisterende mapper skal ha
@@ -126,10 +151,13 @@ $(document).ready(function(){
                 });
                 location.reload();
             } else {
-                emptyLinks();
                 folder_name = this.innerHTML;
                 var mappenavn = this.innerHTML;
-                getLinks(mappenavn);
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: {folder_name: mappenavn}
+                });
                 document.getElementById("main").style = "display:block;";
             }
         }
@@ -140,7 +168,7 @@ $(document).ready(function(){
     // Ny mappe 
 function nyMappe(){
     var mappenavn = prompt("Navnet til mappen: ");
-    
+    var mapId = -1;
     if(mappenavn.length < 2){
         alert("Oppgi mappenavn!");
     } else {
@@ -148,6 +176,12 @@ function nyMappe(){
            type: "POST",
            url: "index.php",
            data: {data: mappenavn},
+            success: function(result) {
+                // Gyldig respons
+                if (result.mappeId > 0) {
+                    mapId = result.mappeId;
+                }
+           }
        });
     
         var button = document.createElement('button');
@@ -155,6 +189,7 @@ function nyMappe(){
         button.setAttribute("id", mappenavn);
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
+        button.setAttribute("href", "?folder=" + mapId);
 
             //Funksjonene som nye mapper skal ha
         button.onclick = function(){
@@ -226,45 +261,6 @@ function nyImg() {
     }   
 }
 
-function addLinks() {
-    $.ajax({
-        type: "POST",
-        url: "index.php",
-        data: {add_link : folder_name},
-        dataType:'json',
-        success: function(data){
-            console.log(folder_name);
-        }
-    });
-
-}
-
-function emptyLinks(){
-    $('#linkList').empty();
-}
-
-function getLinks(mappenavn){
-    $.ajax({
-        type: "POST",
-        url: "index.php",
-        data: {folderName : mappenavn},
-        success: function(data){
-            console.log(mappenavn);
-        }
-    });
-    var linkArray = <?php echo json_encode($linkResultat); ?>;
-    for (var y=0; y<linkArray.length; y++){
-        var linkNavn = linkArray[y].linkNavn;
-        var linkUrl = linkArray[y].linkUrl;
-        var link = document.createElement('li');
-        var ref = document.createElement('a');
-        ref.setAttribute("href", linkUrl);
-        link.appendChild(ref);
-        link.innerHTML = linkNavn;
-        link.style ="text-decoration:none; color:black;"
-        document.getElementById("linkList").appendChild(link);
-    }
-}
 
 </script>
 

@@ -22,16 +22,19 @@ class Mappe
             ":mappenavn" => $mappenavn,
             ":bibId" => $bibId
         ]);
+
+        return $db->lastInsertId();
     }
 
-    public function del_mappe($navn)
+    public function del_mappe($mappeId, $brukerNavn)
     {
-        $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
+        $query_get_mapId = "SELECT m.mapId FROM mapper m LEFT JOIN bibliotek b ON b.id = m.bibId LEFT JOIN brukere br ON b.id = br.id WHERE m.mapId = :mapId AND br.brukernavn = :brukerNavn";
 
         $getMapId=Db::getPdo()->prepare($query_get_mapId);
 
         $getMapId -> execute([
-            ":mappenavn" => $navn
+            ":mapId" => $mappeId,
+            ":brukerNavn" => $brukerNavn
         ]);
 
         $resultat = $getMapId ->fetchColumn();
@@ -68,45 +71,27 @@ class Mappe
         ]);
     }
 
-    public static function getLinks($navn)
+    public static function getLinks($mapId)
     {
-        $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
-
-        $getMapId = Db::getPdo()->prepare($query_get_mapId);
-
-        $getMapId -> execute([
-            ":mappenavn" => $navn
-        ]);
-
-        $mapId = $getMapId ->fetchColumn();
-
-
-        $query_get_links = "SELECT linkNavn, linkUrl FROM links WHERE mapId = :mapId";
+        $id = (int) $mapId;
+        $links = array();
+        $query_get_links = "SELECT linkNavn, linkUrl FROM links WHERE mapId = :id";
 
         $stmt = Db::getPdo()->prepare($query_get_links);
 
-        $stmt -> execute([
-            ":mapId" => $mapId
+        $stmt->execute([
+            ":id" => $id
         ]);
 
-        $linkResultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $linkResultat;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $links[] = new Link($row['linkNavn'], $row['linkUrl']);
+        }
+        return $links;
     }
 
-    public static function addLink($navn, $linkNavn, $url)
+    public static function addLink($mapId, $linkNavn, $url)
     {
-
-        $query_get_mapId = "SELECT mapId FROM mapper WHERE mappeNavn = :mappenavn";
-
-        $getMapId = Db::getPdo()->prepare($query_get_mapId);
-
-        $getMapId -> execute([
-            ":mappenavn" => $navn
-        ]);
-
-        $resultat = $getMapId ->fetchColumn();
-
         $query_link_exists = "SELECT linkNavn FROM links WHERE linkNavn = :linkNavn";
 
         $checkLink = Db::getPdo()->prepare($query_link_exists);
@@ -125,7 +110,7 @@ class Mappe
             $stmt-> execute([
                 ":linkNavn" => $linkNavn,
                 ":linkUrl" => $url,
-                ":mapId" => $resultat
+                ":mapId" => $mapId
             ]);
         }
     }
