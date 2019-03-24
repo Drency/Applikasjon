@@ -41,6 +41,14 @@ if (isset($_POST['slettenavn'])) {
     Mappe::del_mappe($_POST['slettenavn'], $_SESSION['user']);
 }
 
+if (isset($_GET["delete"])) {
+    if (Link::deleteLink($_SESSION['user'], $_GET["delete"])) {
+        echo Warning::success("Link deleted", "You have successfully deleted the link.")->display();
+    } else {
+        echo Warning::danger("Deletion failed", "You do not have permissions to delete this link.")->display();
+    }
+}
+
 //Innhenting av linker til en mappe
 if (isset($_POST['folder_name'])) {
     $linkResultat = Mappe::getLinks('Testmappe');
@@ -55,7 +63,6 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
     $url = $_POST['url'];
     $folder = $_GET["folder"];
  
-    //test er eksempel verdi 
     Mappe::addLink($folder, $linknavn, $url);
 }
 
@@ -95,14 +102,14 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
                 </form>
             </div>
             <div class="content" style="width:600px; height:600px; margin-top:5%;">
-                <ul id="linkList">
+                <ul class='list-group' id="linkList">
                     <?php
-                        
+                        $folder = $_GET["folder"];
                         $linkResult = array();
                         $linkResult = Mappe::getLinks($_GET["folder"]);
                     
                     foreach ($linkResult as $link) {
-                        echo  "<li><a href='{$link->getURL()}'>{$link->getName()}</a></li>";
+                        echo  "<li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><a href='{$link->getURL()}' target='_blank'>{$link->getName()}</a><span class='badge badge-danger badge-pill'><a class='text-light' href='?folder={$folder}&delete={$link->getId()}'>Delete</a></span></li>";
                     }
                     ?>
                 </ul> 

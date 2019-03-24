@@ -75,7 +75,7 @@ class Mappe
     {
         $id = (int) $mapId;
         $links = array();
-        $query_get_links = "SELECT linkNavn, linkUrl FROM links WHERE mapId = :id";
+        $query_get_links = "SELECT linkId, linkNavn, linkUrl FROM links WHERE mapId = :id";
 
         $stmt = Db::getPdo()->prepare($query_get_links);
 
@@ -85,7 +85,7 @@ class Mappe
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as $row) {
-            $links[] = new Link($row['linkNavn'], $row['linkUrl']);
+            $links[] = new Link($row['linkId'], $row['linkNavn'], $row['linkUrl']);
         }
         return $links;
     }
