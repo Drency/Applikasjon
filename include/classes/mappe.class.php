@@ -128,7 +128,5 @@ class Mappe
                 ":mapId" => $resultat
             ]);
         }
-
-        
     }
 }

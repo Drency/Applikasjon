@@ -35,17 +35,16 @@ if (isset($_POST['slettenavn'])) {
 }
 
 //Innhenting av linker til en mappe
-if (isset($_POST['mappe_navn'])) {
+if (isset($_POST['folder_name'])) {
     $linkResultat = Mappe::getLinks('Testmappe');
 }
 
-if (isset($_POST['add_link'])) {
+if (isset($_POST['nyLink'])) {
     $linknavn = $_POST['linknavn'];
     $url = $_POST['url'];
+
     Mappe::addLink('Testmappe', $linknavn, $url);
 }
-
-
 
 ?>
 
@@ -66,13 +65,15 @@ if (isset($_POST['add_link'])) {
         </div>
         <div class="col-8" id="main" style="display:none;">
             <div class="flex-box">
-                <form role="form" method="POST" id="linkForm" class="mt-2">
+                <button class="btn btn-primary" onclick="nyLink()">Ny link</button>
+                <button class="btn btn-primary" name="add_img" onclick="nyImg()">Nytt bilde</button>
+                <form role="form" method="POST" id="linkForm" class="mt-2" style="display:none;">
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
                     <input type="link" name="url" placeholder="Link Url">
-                    <button type="submit" class="btn btn-primary" name="add_link" onclick="sendLink()">Legg til</button>
+                    <button class="btn btn-primary" name="nyLink" onclick="addLink()">Legg til link</button>
                 </form>
-                <form action="" class="mt-2">
+                <form method="POST" id="imgForm" class="mt-2" style="display:none;">
                     <label>Last opp bilde:</label>
                     <input type="file" name="photoimg" id="photoimg">
                     <input type="submit" class="btn btn-primary" value="Upload Image" name="submit">
@@ -97,6 +98,9 @@ if (isset($_POST['add_link'])) {
 
 <script>
 var slette = false;
+var showLink = false;
+var showImg = false;
+var folder_name = "";
 
     //Henter inn mapper som er i databasen
 $(document).ready(function(){
@@ -122,31 +126,10 @@ $(document).ready(function(){
                 });
                 location.reload();
             } else {
-                
-                $(linkList).empty();
+                emptyLinks();
+                folder_name = this.innerHTML;
                 var mappenavn = this.innerHTML;
-                
-                $.ajax({
-                    type: "POST",
-                    url: "index.php",
-                    data: {mappe_navn: mappenavn},
-                    success: function(data){
-                        console.log(mappenavn);
-                    }
-                });
-                
-                var linkArray = <?php echo json_encode($linkResultat); ?>;
-                for (var y=0; y<linkArray.length; y++){
-                    var linkNavn = linkArray[y].linkNavn;
-                    var linkUrl = linkArray[y].linkUrl;
-                    var link = document.createElement('li');
-                    var ref = document.createElement('a');
-                    ref.setAttribute("href", linkUrl);
-                    link.appendChild(ref);
-                    link.innerHTML = linkNavn;
-                    link.style ="text-decoration:none; color:black;"
-                    document.getElementById("linkList").appendChild(link);
-                }
+                getLinks(mappenavn);
                 document.getElementById("main").style = "display:block;";
             }
         }
@@ -169,7 +152,7 @@ function nyMappe(){
     
         var button = document.createElement('button');
         button.innerHTML = mappenavn;
-        button.setAttribute("id", navn);
+        button.setAttribute("id", mappenavn);
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
 
@@ -185,33 +168,13 @@ function nyMappe(){
                 });
                 location.reload();
             } else {
-                var mapName = this.innerHTML;
-                $.ajax({
-                    type: "POST",
-                    url: "index.php",
-                    data: {mappe_navn: mapName},
-                });
-                $(linkList).empty();
-
-                var linkArray = <?php echo json_encode($linkResultat); ?>;
-
-                for (var y=0; y<linkArray.length; y++){
-                    var linkNavn = linkArray[y].linkNavn;
-                    var linkUrl = linkArray[y].linkUrl;
-                    var link = document.createElement('li');
-                    var ref = document.createElement('a');
-                    ref.setAttribute("href", linkUrl);
-                    link.appendChild(ref);
-                    link.innerHTML = linkNavn;
-                    link.style ="text-decoration:none; color:black;"
-                    document.getElementById("linkList").appendChild(link);
-                }
+                emptyLinks();
+                var mappenavn = this.innerHTML;
+                getLinks(mappenavn);
                 document.getElementById("main").style = "display:block;";
             }
         }
-
         document.getElementById("btn-container").appendChild(button);
-
     }  
 }
 
@@ -222,6 +185,84 @@ function slettMappe(){
 
     } else {
         document.getElementById("sletteMelding").style = "display:none;";
+    }
+}
+
+function nyLink() {
+    showLink =! showLink;
+    if(showImg){
+        document.getElementById('imgForm').style = "display:none;";
+        showImg = false;
+        if(showLink){
+            document.getElementById('linkForm').style="display:block;";
+        } else {
+            document.getElementById('linkForm').style="display:none;";
+        }
+    } else {
+        if(showLink){
+            document.getElementById('linkForm').style="display:block;";
+        } else {
+            document.getElementById('linkForm').style="display:none;";
+        }
+    }
+}
+
+function nyImg() {
+    showImg =! showImg;
+    if (showLink) {
+        document.getElementById('linkForm').style="display:none;";
+        showLink = false;
+        if(showImg) {
+            document.getElementById('imgForm').style = "display:block;";
+        } else {
+            document.getElementById('imgForm').style = "display:none;";
+        }
+    } else {
+        if(showImg) {
+            document.getElementById('imgForm').style = "display:block;";
+        } else {
+            document.getElementById('imgForm').style = "display:none;";
+        }
+    }   
+}
+
+function addLinks() {
+    $.ajax({
+        type: "POST",
+        url: "index.php",
+        data: {add_link : folder_name},
+        dataType:'json',
+        success: function(data){
+            console.log(folder_name);
+        }
+    });
+
+}
+
+function emptyLinks(){
+    $('#linkList').empty();
+}
+
+function getLinks(mappenavn){
+    $.ajax({
+        type: "POST",
+        url: "index.php",
+        data: {folderName : mappenavn},
+        success: function(data){
+            console.log(mappenavn);
+        }
+    });
+    var linkArray = <?php echo json_encode($linkResultat); ?>;
+    for (var y=0; y<linkArray.length; y++){
+        var linkNavn = linkArray[y].linkNavn;
+        var linkUrl = linkArray[y].linkUrl;
+        var link = document.createElement('li');
+        var ref = document.createElement('a');
+        ref.setAttribute("href", linkUrl);
+        link.appendChild(ref);
+        link.innerHTML = linkNavn;
+        link.style ="text-decoration:none; color:black;"
+        document.getElementById("linkList").appendChild(link);
     }
 }
 
