@@ -4,7 +4,7 @@ include_once __DIR__ . '/include/header.php';
 ?>
 
 
-<form action="include/upload.php" class="text-center m-2" method="post" enctype="multipart/form-data">
+<form id="myForm" class="text-center m-2" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
         <input type="file"name="photoimg" id="photoimg">
     </div>

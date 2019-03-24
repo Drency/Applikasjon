@@ -65,7 +65,9 @@ class check_user
         $statement->execute([
             ":username" => $username
         ]);
-
+        
+        session_start();
+        $_SESSION['user'] = $username;
         return $statement->rowCount();
     }
 

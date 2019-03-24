@@ -79,7 +79,7 @@ if (isset($_POST['nyLink'])) {
                     <input type="submit" class="btn btn-primary" value="Upload Image" name="submit">
                 </form>
             </div>
-            <div class="content" style="width:600px; height:600px; background-color:white; margin-top:5%;">
+            <div class="content" style="width:600px; height:600px; margin-top:5%;">
                 <ul id="linkList">
                     <!-- Her skal linker, filer og bilder legges -->
                 </ul> 

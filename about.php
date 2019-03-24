@@ -12,7 +12,7 @@
     <div class="card" id="bg-color">
         <h2 class="card-title">Studenter</h2>
         <pre class="card-text" id="about-heading">
-            New Home ble lagd av 4 studenter i USN.
+            <p>New Home ble lagd av 4 studenter i USN.</p>
             Vi bestemte oss å lage applikasjonen fordi vi likte å ha et system på linker,
             og vi synes bokmerke på nettleseren ikke var godt nok
             Første halvåret på dette porsjekte, ble å finne ut ideer,

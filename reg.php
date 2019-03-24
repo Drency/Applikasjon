@@ -20,7 +20,8 @@ if (isset($_POST['reg_user'])) {
                     echo Warning::danger("Eksisterer allerede", "E-posten eksisterer allerede!")->display();
                 } else {
                     $userdata = check_user::register(["username" => $_POST["username"],"email" => $_POST["email"], "passord" => $_POST["password"]]);
-                    echo Warning::success("Ny bruker registrert", "Velkommen {$_POST["username"]}!")->display(); 
+                    echo Warning::success("Ny bruker registrert", "Velkommen {$_POST["username"]}!")->display();
+                    header("location: index.php");
                 }
             }
         }
