@@ -2,7 +2,7 @@
 
 class Mappe
 {
-
+    
     public static function add_mappe($mappenavn)
     {
         $query_get_bibId = "SELECT bibId FROM bibliotek, brukere WHERE brukere.brukernavn = :username AND brukere.id = bibId;";
@@ -26,25 +26,14 @@ class Mappe
         return $db->lastInsertId();
     }
 
-    public function del_mappe($mappeId, $brukerNavn)
+    public static function del_mappe($brukerNavn, $mappeId)
     {
-        $query_get_mapId = "SELECT m.mapId FROM mapper m LEFT JOIN bibliotek b ON b.id = m.bibId LEFT JOIN brukere br ON b.id = br.id WHERE m.mapId = :mapId AND br.brukernavn = :brukerNavn";
-
-        $getMapId=Db::getPdo()->prepare($query_get_mapId);
-
-        $getMapId -> execute([
-            ":mapId" => $mappeId,
-            ":brukerNavn" => $brukerNavn
-        ]);
-
-        $resultat = $getMapId ->fetchColumn();
-
         $query_del_links = "DELETE FROM links WHERE mapId = :mapId";
 
         $delLink = Db::getPdo()->prepare($query_del_links);
 
         $delLink -> execute([
-            ":mapId" => $resultat
+            ":mapId" => $mappeId
         ]);
 
         $query_del_filer = "DELETE FROM filer WHERE mapId = :mapId";
@@ -52,7 +41,7 @@ class Mappe
         $delFiler = Db::getPdo()->prepare($query_del_filer);
 
         $delFiler -> execute([
-            ":mapId" => $resultat
+            ":mapId" => $mappeId
         ]);
 
         $query_del_bilde = "DELETE FROM bilder WHERE mapId = :mapId";
@@ -60,14 +49,14 @@ class Mappe
         $delBilder = Db::getPdo()->prepare($query_del_bilde);
 
         $delBilder -> execute([
-            ":mapId" => $resultat
+            ":mapId" => $mappeId
         ]);
 
-        $query_del_mappe = "DELETE FROM mapper WHERE mappeNavn = :mappenavn";
+        $query_del_mappe = "DELETE FROM mapper WHERE mapId = :mapId";
 
         $stmt = Db::getPdo()->prepare($query_del_mappe);
         $stmt-> execute([
-            ":mappenavn" => $navn
+            ":mapId" => $mappeId
         ]);
     }
 

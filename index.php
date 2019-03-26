@@ -5,9 +5,8 @@ session_start();
 require_once __DIR__ . '/include/classes/db.class.php';
 require_once __DIR__ . "/include/header.php";
 
-    // require_once __DIR__ . '/include/upload.php';
 
-// Innhenting av mappene til en bruker
+// Innhenting av mappene til en bruker når siden blir lastet
 $query_get_mapper = "SELECT m.mappeNavn, m.mapId FROM brukere b, bibliotek bib, mapper m WHERE b.brukernavn = :username AND bib.id = b.id AND bib.bibId = m.bibID";
 
 $stmt = Db::getPdo()->prepare($query_get_mapper);
@@ -23,7 +22,7 @@ $linkResultat = "";
 
 
 
-//Klasse kall
+//Legge til en ny mappe, og legge den til på siden.
 if (isset($_POST['data'])) {
     $mappeId = Mappe::add_mappe($_POST['data']);
 
@@ -37,10 +36,12 @@ if (isset($_POST['data'])) {
     echo json_encode($response);
 }
 
+// Sletting av en mappe
 if (isset($_POST['slettenavn'])) {
-    Mappe::del_mappe($_POST['slettenavn'], $_SESSION['user']);
+    Mappe::del_mappe($_SESSION['user'], $_GET['folder']);
 }
 
+// Sletting av linker fra en mappe
 if (isset($_GET["delete"])) {
     if (Link::deleteLink($_SESSION['user'], $_GET["delete"])) {
         echo Warning::success("Link deleted", "You have successfully deleted the link.")->display();
@@ -52,12 +53,9 @@ if (isset($_GET["delete"])) {
 //Innhenting av linker til en mappe
 if (isset($_POST['folder_name'])) {
     $linkResultat = Mappe::getLinks('Testmappe');
-
-    echo "<br>";
-    var_dump($linkResultat);
-    echo "<br>";
 }
 
+// For å legge til nye linker inenfor en mappe
 if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
     $linknavn = $_POST['linknavn'];
     $url = $_POST['url'];
@@ -66,29 +64,29 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
     Mappe::addLink($folder, $linknavn, $url);
 }
 
+//Sletting av mapper
+if (isset($_GET['delMappe'])) {
+    Mappe::del_mappe($_SESSION['user'], $_GET['folder']);
+    header('location: index.php');
+}
 ?>
-
-<div class='alert alert-danger' role='alert' style="display:none;" id="sletteMelding">
-    <h4 class='alert-heading'>Sletting av mappe</h4>
-    <p>Trykk på en mappe for å slette den</p>
-</div>
-
 
     <!-- Container for main elements -->
 <div class="container text-light" onload="lastInn()">
     <div class="row">
         <div class="col-4 text-center flex-column">
             <button class="btn btn-primary mt-2" onclick="nyMappe()">Ny mappe</button>
-            <button class="btn btn-danger mt-2" onclick="slettMappe()">Slett mappe</button>
             <div id="btn-container">
             
             </div>
         </div>
+        <!-- Om man han trykket på en mappe, vises innholdet i mappen -->
     <?php if (isset($_GET["folder"])) { ?>
         <div class="col-8" id="main">
             <div class="flex-box">
                 <button class="btn btn-primary" onclick="nyLink()">Ny link</button>
                 <button class="btn btn-primary" name="add_img" onclick="nyImg()">Nytt bilde</button>
+                <a class="btn btn-danger ml-auto" href="<?php echo "?folder={$_GET['folder']}&delMappe=1"; ?>">Slett mappe</a>
                 <form role="form" method="POST" id="linkForm" class="mt-2" style="display:none;">
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
@@ -103,6 +101,7 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
             </div>
             <div class="content" style="width:600px; height:600px; margin-top:5%;">
                 <ul class='list-group' id="linkList">
+                <!-- Legger til de forskjellige linkene fra databasen -->
                     <?php
                         $folder = $_GET["folder"];
                         $linkResult = array();
@@ -131,7 +130,6 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
 var slette = false;
 var showLink = false;
 var showImg = false;
-var folder_name = "";
 
     //Henter inn mapper som er i databasen
 $(document).ready(function(){
@@ -147,27 +145,6 @@ $(document).ready(function(){
         button.setAttribute("href", "?folder=" + jArray[i].mapId);
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
    
-        //Funksjonene som eksisterende mapper skal ha
-        button.onclick = function(){
-            if (slette){
-                var name = this.innerHTML;
-                $.ajax({
-                    type: "POST",
-                    url: "index.php",
-                    data: {slettenavn: name}
-                });
-                location.reload();
-            } else {
-                folder_name = this.innerHTML;
-                var mappenavn = this.innerHTML;
-                $.ajax({
-                    type: "POST",
-                    url: "index.php",
-                    data: {folder_name: mappenavn}
-                });
-                document.getElementById("main").style = "display:block;";
-            }
-        }
         document.getElementById("btn-container").appendChild(button);
     }
 });
@@ -191,43 +168,16 @@ function nyMappe(){
            }
        });
     
-        var button = document.createElement('button');
+        var button = document.createElement('a');
         button.innerHTML = mappenavn;
         button.setAttribute("id", mappenavn);
+        button.setAttribute("href", "?folder=" + mapId);
         button.className += "btn btn-primary btn-block";
         button.style ="margin-left: 10%; margin-top: 15%; width:60%;";
-        button.setAttribute("href", "?folder=" + mapId);
-
-            //Funksjonene som nye mapper skal ha
-        button.onclick = function(){
-            if (slette){
-                var name = this.innerHTML;
-                console.log(name);
-                $.ajax({
-                    type: "POST",
-                    url: "index.php",
-                    data: {slettenavn: name},
-                });
-                location.reload();
-            } else {
-                emptyLinks();
-                var mappenavn = this.innerHTML;
-                getLinks(mappenavn);
-                document.getElementById("main").style = "display:block;";
-            }
-        }
+   
         document.getElementById("btn-container").appendChild(button);
+        location.reload();
     }  
-}
-
-function slettMappe(){
-    slette = ! slette;
-    if(slette){
-        document.getElementById("sletteMelding").style = "display:block;";
-
-    } else {
-        document.getElementById("sletteMelding").style = "display:none;";
-    }
 }
 
 function nyLink() {
