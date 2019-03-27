@@ -86,6 +86,7 @@ if (isset($_GET['delMappe'])) {
             <div class="flex-box">
                 <button class="btn btn-primary" onclick="nyLink()">Ny link</button>
                 <button class="btn btn-primary" name="add_img" onclick="nyImg()">Nytt bilde</button>
+                <button class="btn btn-primary" onclick="nyFil()">Ny fil</button>
                 <a class="btn btn-danger ml-auto" href="<?php echo "?folder={$_GET['folder']}&delMappe=1"; ?>">Slett mappe</a>
                 <form role="form" method="POST" id="linkForm" class="mt-2" style="display:none;">
                     <label>Legg til link : </label>
@@ -97,6 +98,11 @@ if (isset($_GET['delMappe'])) {
                     <label>Last opp bilde:</label>
                     <input type="file" name="photoimg" id="photoimg">
                     <input type="submit" class="btn btn-primary" value="Upload Image" name="submit">
+                </form>
+                <form method="POST" id="fileForm" class="mt-2" style="display:none;">
+                    <label>Last opp fil:</label>
+                    <input type="file" name="file" id="file">
+                    <input type="submit" class="btn btn-primary" value="Upload File" name="submit">
                 </form>
             </div>
             <div class="content" style="width:600px; height:600px; margin-top:5%;">
@@ -130,6 +136,7 @@ if (isset($_GET['delMappe'])) {
 var slette = false;
 var showLink = false;
 var showImg = false;
+var showFil = false;
 
     //Henter inn mapper som er i databasen
 $(document).ready(function(){
@@ -182,9 +189,11 @@ function nyMappe(){
 
 function nyLink() {
     showLink =! showLink;
-    if(showImg){
+    if(showImg || showFil){
         document.getElementById('imgForm').style = "display:none;";
+        document.getElementById('fileForm').style = "display: none;"
         showImg = false;
+        showFil = false;
         if(showLink){
             document.getElementById('linkForm').style="display:block;";
         } else {
@@ -201,9 +210,11 @@ function nyLink() {
 
 function nyImg() {
     showImg =! showImg;
-    if (showLink) {
+    if (showLink || showFil) {
         document.getElementById('linkForm').style="display:none;";
+        document.getElementById('fileForm').style = "display:none";
         showLink = false;
+        showFil = false;
         if(showImg) {
             document.getElementById('imgForm').style = "display:block;";
         } else {
@@ -218,6 +229,27 @@ function nyImg() {
     }   
 }
 
+function nyFil(){
+    showFil =! showFil;
+    console.log("nyFil");
+    if(showImg || showLink){
+        document.getElementById('imgForm').style = "display:none;";
+        document.getElementById('linkForm').style = "display: none;"
+        showImg = false;
+        showLink = false;
+        if(showFil){
+            document.getElementById('fileForm').style="display:block;";
+        } else {
+            document.getElementById('fileForm').style="display:none;";
+        }
+    } else {
+        if(showFil){
+            document.getElementById('fileForm').style="display:block;";
+        } else {
+            document.getElementById('fileForm').style="display:none;";
+        }
+    }
+}
 
 </script>
 
