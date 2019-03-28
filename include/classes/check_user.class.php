@@ -5,7 +5,7 @@ class check_user
 
     public static function validate(Array $userdata)
     {
-        if (!array_key_exists("brukernavn", $userdata)) {
+        if (!array_key_exists("username", $userdata)) {
             throw new InvalidArgumentException("Brukernavn må oppgis!");
         }
 
@@ -14,20 +14,34 @@ class check_user
         }
 
         $query_check_user = "SELECT `id`, `brukernavn`, `email`, `passord` FROM brukere WHERE `brukernavn` = :username";
-
+        
         $statement = Db::getPDO() ->prepare($query_check_user);
         $statement->execute([
             ":username" => $userdata["username"]
         ]);
         $user = $statement.fetchObject();
 
+        $query_get_hashed_pw = "SELECT passord FROM brukere WHERE brukernavn = :username";
+
+        $get_hashed_pw = Db::getPdo()->prepare($query_get_hashed_pw);
+
+        $get_hashed_pw -> execute([
+            ":username" => $userdata['passord']
+        ]);
+
+        $db_pw = $get_hashed_pw->fetchColumn();
+        echo $db_pw;
+        $options = [
+            'cost' => 12
+        ];
+
+        $given_pw = password_hash($userdata['passord'], PASSWORD_BCRYPT, $options);
+
+        
 
         if ($user !== false) {
-            return true;
-            $hash = $user->passord;
-
-            if (passord_check($userdata["passord"], $hash)) {
-                return $user->id;
+            if (password_verify($given_pw, $db_pw)) {
+                return true;
             }
         }
     }
@@ -48,12 +62,18 @@ class check_user
         
         $query_reg_user = "INSERT INTO brukere(`brukernavn`, `email`, `passord`) VALUES(:username, :email, :passord)";
 
+        $options = [
+            'cost' => 12
+          ];
+
+        $hashed = password_hash($userdata['passord'], PASSWORD_BCRYPT, $options);
+
         $db = Db::getPdo();
         $statement = $db->prepare($query_reg_user);
         $statement->execute([
             ":username" => $userdata["username"],
             ":email" => $userdata["email"],
-            ":passord" => $userdata["passord"] //Bytte med hash når pw blir hashet
+            ":passord" => $hashed
         ]);
     }
 
