@@ -94,11 +94,16 @@ if (isset($_GET['delMappe'])) {
                     <input type="link" name="url" placeholder="Link Url">
                     <button class="btn btn-primary" name="nyLink" onclick="addLink()">Legg til link</button>
                 </form>
-                <form method="POST" id="imgForm" class="mt-2" style="display:none;">
+                <form action="nicktare.php" method="POST" id="imgForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
+                    <label>Last opp bilde:</label>
+                    <input type="file" name="file">
+                    <input type="submit" class="btn btn-primary" name="submit" value="Upload">
+                </form>
+                <!-- <form method="POST" id="imgForm" class="mt-2" style="display:none;">
                     <label>Last opp bilde:</label>
                     <input type="file" name="photoimg" id="photoimg">
                     <input type="submit" class="btn btn-primary" value="Upload Image" name="submit">
-                </form>
+                </form> -->
                 <form method="POST" id="fileForm" class="mt-2" style="display:none;">
                     <label>Last opp fil:</label>
                     <input type="file" name="file" id="file">
