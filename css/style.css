@@ -31,15 +31,6 @@ body {
     margin:0;
 }
 
-/*About styling*/
-#about-heading{
-    font-family: Georgia, serif;
-    color: white;
-    display:block;
-    background-color:rgb(29, 28, 28);
-    margin:0;
-}
-
 /*about.html styling*/
 #no-border{
     border:none;
