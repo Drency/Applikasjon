@@ -2,7 +2,7 @@ CREATE TABLE brukere (
     id int UNIQUE NOT NULL AUTO_INCREMENT,
     brukernavn varchar(100) NOT NULL,
     email varchar(255) NOT NULL,
-    passord varchar(45) NOT NULL,
+    passord varchar(255) NOT NULL,
     PRIMARY KEY (id)
 );
 

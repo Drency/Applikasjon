@@ -12,6 +12,7 @@ if (isset($_SESSION['user'])) {
 
 if (isset($_POST['login_user'])) {
     if (check_user::is_user($_POST['username'], $_POST['passord'])) {
+        $_SESSION['user'] = $_POST['username'];
         header("Location: index.php");
     } else {
         echo Warning::danger("Feil brukernavn / passord", "Brukernavnet eller passordet du skrev inn er feil!")->display();

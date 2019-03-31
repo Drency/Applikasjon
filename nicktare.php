@@ -19,10 +19,9 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
         if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
             // Insert image file name into database
             $insert = $db->query("INSERT into bilder (bildeLink) VALUES ('".$fileName."')");
-            if($insert){
+            if ($insert) {
                 echo "<img src='uploads/".$fileName."' class='preview'>";
-            }
-            else
+            } else {
               echo "failed";
           }
           else
@@ -52,4 +51,4 @@ require_once __DIR__ . 'header.php';
 
 // Display status message
 // echo $statusMsg;
-?>
+?> <!--TRENGER IKKE avslutte php
