@@ -1,7 +1,6 @@
-<?php 
-if (isset($_SESSION['user'])) {
+<?php
     session_start();
-}
+
     
     require_once __DIR__ . '/include/header.php';
 ?>
