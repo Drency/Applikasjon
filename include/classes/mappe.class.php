@@ -89,9 +89,7 @@ class Mappe
             ":linkNavn" => $linkNavn
         ]);
         
-        if ($checkLink->rowCount()) {
-            
-        } else {
+        if (!$checkLink->rowCount()) {
             $query_add_link = "INSERT INTO links(`linkNavn`, `linkUrl`, `mapId`) VALUES(:linkNavn, :linkUrl, :mapId)";
 
             $stmt = Db::getPdo()->prepare($query_add_link);
