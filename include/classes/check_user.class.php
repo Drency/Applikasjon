@@ -2,29 +2,6 @@
 
 class check_user
 {
-
-    /*public static function validate(Array $userdata)
-    {
-        if (!array_key_exists("username", $userdata)) {
-            throw new InvalidArgumentException("Brukernavn må oppgis!");
-        }
-
-        if (!array_key_exists("passord", $userdata)) {
-            throw new InvalidArgumentException("Passord må oppgis!");
-        }
-
-        $query_check_user = "SELECT `id`, `brukernavn`, `email`, `passord` FROM brukere WHERE `brukernavn` = :username";       
-        $statement = Db::getPDO() ->prepare($query_check_user);
-        $statement->execute([
-            ":username" => $userdata["username"]
-        ]);
-        $user = $statement.fetchObject();
-
-        if ($user !== false) {
-            $user_id -> $user;
-        }
-    }*/
-
     public static function register(Array $userdata)
     {
         if (!array_key_exists("username", $userdata)) {
