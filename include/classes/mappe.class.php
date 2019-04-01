@@ -79,14 +79,16 @@ class Mappe
         return $links;
     }
 
+    //Sjekker om linken eksisterer i databasen, hvis ikke legges den til. 
     public static function addLink($mapId, $linkNavn, $url)
     {
-        $query_link_exists = "SELECT linkNavn FROM links WHERE linkNavn = :linkNavn";
+        $query_link_exists = "SELECT linkNavn FROM links WHERE linkNavn = :linkNavn AND mapId = :mapId";
 
         $checkLink = Db::getPdo()->prepare($query_link_exists);
 
         $checkLink -> execute([
-            ":linkNavn" => $linkNavn
+            ":linkNavn" => $linkNavn,
+            ":mapId" => $mapId
         ]);
         
         if (!$checkLink->rowCount()) {
@@ -98,6 +100,32 @@ class Mappe
                 ":linkNavn" => $linkNavn,
                 ":linkUrl" => $url,
                 ":mapId" => $mapId
+            ]);
+        }
+    }
+
+    //Sjekker om filen eksisterer i databasen om den ikke gjør det legges den til.
+    public static function addFile($filename, $folder)
+    {
+        $query_filename_exists = "SELECT filNavn FROM filer WHERE filNavn = :filnavn AND mapId = :mapId";
+
+        $stmt = Db::getPdo()->prepare($query_filename_exists);
+        $stmt -> execute([
+            ":filnavn" => $filename,
+            ":mapId" => $folder
+        ]);
+
+
+        //Her kommer upload delen.
+
+        if (!$stmt->rowCount()) {
+            $query_add_fil = "INSERT INTO filer(filLink, filNavn, mapId) VALUES (:filLink, :filNavn, :mapId)";
+
+            $insert = Db::getPdo()->prepare($query_add_fil);
+            $insert -> execute([
+                ":filLink" => "uploads/test.pdf",
+                "filNavn" => $filename,
+                ":mapId" => $folder
             ]);
         }
     }

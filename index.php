@@ -5,7 +5,7 @@ session_start();
 require_once __DIR__ . '/include/classes/db.class.php';
 require_once __DIR__ . "/include/header.php";
 
-
+    //MAPPER
 // Innhenting av mappene til en bruker når siden blir lastet
 $query_get_mapper = "SELECT m.mappeNavn, m.mapId FROM brukere b, bibliotek bib, mapper m WHERE b.brukernavn = :username AND bib.id = b.id AND bib.bibId = m.bibID";
 
@@ -36,11 +36,14 @@ if (isset($_POST['data'])) {
     echo json_encode($response);
 }
 
-// Sletting av en mappe
-if (isset($_POST['slettenavn'])) {
+//Sletting av mapper
+if (isset($_GET['delMappe'])) {
     Mappe::del_mappe($_SESSION['user'], $_GET['folder']);
+    header('location: index.php');
 }
 
+
+    //LINKER
 // Sletting av linker fra en mappe
 if (isset($_GET["delete"])) {
     if (Link::deleteLink($_SESSION['user'], $_GET["delete"])) {
@@ -48,11 +51,6 @@ if (isset($_GET["delete"])) {
     } else {
         echo Warning::danger("Deletion failed", "You do not have permissions to delete this link.")->display();
     }
-}
-
-//Innhenting av linker til en mappe
-if (isset($_POST['folder_name'])) {
-    $linkResultat = Mappe::getLinks('Testmappe');
 }
 
 // For å legge til nye linker inenfor en mappe
@@ -64,11 +62,18 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
     Mappe::addLink($folder, $linknavn, $url);
 }
 
-//Sletting av mapper
-if (isset($_GET['delMappe'])) {
-    Mappe::del_mappe($_SESSION['user'], $_GET['folder']);
-    header('location: index.php');
+    //FILER
+    //For å legge til nye filer
+if (isset($_POST['nyFil']) && isset($_GET['folder'])) {
+    $filename = $_POST['filNavn'];
+    $folder = $_GET["folder"];
+    Mappe::addFile($filename, $folder);
 }
+
+
+
+    //BILDER
+
 ?>
 
     <!-- Container for main elements -->
@@ -92,22 +97,17 @@ if (isset($_GET['delMappe'])) {
                     <label>Legg til link : </label>
                     <input type="text" name="linknavn" placeholder="Navnet til linken">
                     <input type="link" name="url" placeholder="Link Url">
-                    <button class="btn btn-primary" name="nyLink" onclick="addLink()">Legg til link</button>
+                    <button class="btn btn-primary" name="nyLink">Legg til link</button>
                 </form>
                 <form action="nicktare.php" method="POST" id="imgForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
                     <label>Last opp bilde:</label>
                     <input type="file" name="file">
-                    <input type="submit" class="btn btn-primary" name="submit" value="Upload">
+                    <input type="submit" class="btn btn-primary" name="submit" value="Last opp">
                 </form>
-                <!-- <form method="POST" id="imgForm" class="mt-2" style="display:none;">
-                    <label>Last opp bilde:</label>
-                    <input type="file" name="photoimg" id="photoimg">
-                    <input type="submit" class="btn btn-primary" value="Upload Image" name="submit">
-                </form> -->
-                <form method="POST" id="fileForm" class="mt-2" style="display:none;">
-                    <label>Last opp fil:</label>
-                    <input type="file" name="file" id="file">
-                    <input type="submit" class="btn btn-primary" value="Upload File" name="submit">
+                <form method="POST" id="fileForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
+                    <input type="text" name="filNavn" id="filNavn" placeholder="Filnavn">
+                    <input type="file" name="upload_file" id="upload_file">
+                    <button class="btn btn-primary" name="nyFil">Legg til fil</button>
                 </form>
             </div>
             <div class="content" style="width:600px; height:600px; margin-top:5%;">
