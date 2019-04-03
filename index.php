@@ -77,7 +77,6 @@ if (isset($_POST['nyFil']) && isset($_GET['folder'])) {
         echo Warning::danger("File er for stor", "Filen du prøvde å laste opp er for stor. Maks størrelse er 1 MB")->display();
         $uploadOk = 0;
     }
-
     
     if ($uploadOk == 0) {
         echo Warning::danger("Det skjedde en feil", "Prøv igjen siden.")->display();
@@ -88,8 +87,8 @@ if (isset($_POST['nyFil']) && isset($_GET['folder'])) {
             echo Warning::danger("Opplasting feilet!", "Filen eksisterer allerede")->display();
         }
     }
-    
-    Mappe::addFile($filename, $folder);
+    $folderLink = "uploads/$filename";
+    Mappe::addFile($filename, $folder, $folderLink);
 }
 
 if (isset($_GET['delFil'])) {
@@ -162,8 +161,9 @@ if (isset($_GET['delFil'])) {
                     ?>
                 </ul> 
                 <hr style="background-color: #383838; padding: 2px;">
-                <div class="img" style="color:black; height:100px;">
-                    <!-- <img style="100px"> -->
+                <div class="img" style="color:black;">
+                    <ul class='list-group' id="linkList">
+                        <!-- <img style="100px"> -->
                 </div>
                 <hr style="background-color: #383838; padding: 2px;">
                 <ul class='list-group' id="fileList">
@@ -176,8 +176,6 @@ if (isset($_GET['delFil'])) {
                     foreach ($filResult as $file) {
                         echo  "<li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><a>{$file->getName()}</a><span class='badge badge-danger badge-pill'><a class='text-light' href='?folder={$folder}&delFil={$file->getId()}'>Delete</a></span></li>";
                     }
-
-
                     ?>
                 </ul>
             </div>

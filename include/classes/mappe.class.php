@@ -105,7 +105,7 @@ class Mappe
     }
 
     //Sjekker om filen eksisterer i databasen om den ikke gjør det legges den til.
-    public static function addFile($filename, $folder)
+    public static function addFile($filename, $folder, $fileLink)
     {
         $query_filename_exists = "SELECT filNavn FROM filer WHERE filNavn = :filnavn AND mapId = :mapId";
 
@@ -120,7 +120,7 @@ class Mappe
 
             $insert = Db::getPdo()->prepare($query_add_fil);
             $insert -> execute([
-                ":filLink" => "uploads/test.pdf",
+                ":filLink" => $fileLink,
                 "filNavn" => $filename,
                 ":mapId" => $folder
             ]);
