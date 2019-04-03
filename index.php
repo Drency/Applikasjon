@@ -67,9 +67,46 @@ if (isset($_POST['nyLink']) && isset($_GET["folder"])) {
 if (isset($_POST['nyFil']) && isset($_GET['folder'])) {
     $filename = $_POST['filNavn'];
     $folder = $_GET["folder"];
+
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+    if ($_FILES["fileToUpload"]["size"] > 1000000) {
+        echo Warning::danger("File er for stor", "Filen du prøvde å laste opp er for stor. Maks størrelse er 1 MB")->display();
+        $uploadOk = 0;
+    }
+
+    
+    if ($uploadOk == 0) {
+        echo Warning::danger("Det skjedde en feil", "Prøv igjen siden.")->display();
+    } else {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            echo Warning::success("Fil lastet opp.", "Filen din har blitt lastet opp")->display();
+        } else {
+            echo Warning::danger("Opplasting feilet!", "Filen eksisterer allerede")->display();
+        }
+    }
+    
     Mappe::addFile($filename, $folder);
 }
 
+if (isset($_GET['delFil'])) {
+    if (File::deleteFile($_SESSION['user'], $_GET['delFil'])) {
+        $query_get_file_name  = "SELECT filNavn FROM filer WHERE filId = :filId";
+        $get_file_name = Db::getPdo()->prepare($query_get_file_name);
+        $get_file_name -> execute([":filId" => $_GET['delFil']]);
+        $filename = $get_file_name->fetchColumn();
+
+        $path = realpath('uploads/' . $filename);
+        if (is_writable($path)) {
+            echo Warning::success("Fil slettet", "Filen er slettet")->display();
+        } else {
+            echo Warning::danger("Sletting feilet", "Du har ikke tilgang til å slette denne filen.")->display();
+        }
+    }
+}
 
 
     //BILDER
@@ -105,12 +142,13 @@ if (isset($_POST['nyFil']) && isset($_GET['folder'])) {
                     <input type="submit" class="btn btn-primary" name="submit" value="Last opp">
                 </form>
                 <form method="POST" id="fileForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
-                    <input type="text" name="filNavn" id="filNavn" placeholder="Filnavn">
-                    <input type="file" name="upload_file" id="upload_file">
+                    <input type="text" name="filNavn" placeholder="Navnet til filen">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
                     <button class="btn btn-primary" name="nyFil">Legg til fil</button>
                 </form>
             </div>
-            <div class="content" style="width:600px; height:600px; margin-top:5%;">
+            <div class="content" style="width:90%; margin-top:5%;">
+            <hr style="background-color: #383838; padding: 2px;">
                 <ul class='list-group' id="linkList">
                 <!-- Legger til de forskjellige linkene fra databasen -->
                     <?php
@@ -123,19 +161,30 @@ if (isset($_POST['nyFil']) && isset($_GET['folder'])) {
                     }
                     ?>
                 </ul> 
-                <hr style="background-color:blue; padding: 2px;">
+                <hr style="background-color: #383838; padding: 2px;">
                 <div class="img" style="color:black; height:100px;">
                     <!-- <img style="100px"> -->
                 </div>
-                <hr style="background-color:blue; padding: 2px;">
-                <ul>
-                    <!-- <li style="color:black;">Fil 1</li> -->
+                <hr style="background-color: #383838; padding: 2px;">
+                <ul class='list-group' id="fileList">
+                        <!-- Legger til filer fra databasen -->
+                    <?php
+                        $folder = $_GET['folder'];
+                        $filResult = array();
+                        $filResult = Mappe::getFile($folder);
+                        
+                    foreach ($filResult as $file) {
+                        echo  "<li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><a>{$file->getName()}</a><span class='badge badge-danger badge-pill'><a class='text-light' href='?folder={$folder}&delFil={$file->getId()}'>Delete</a></span></li>";
+                    }
+
+
+                    ?>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-<?php } ?>
+    <?php } ?>
 
 <script>
 var slette = false;

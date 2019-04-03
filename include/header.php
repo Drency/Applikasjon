@@ -8,6 +8,7 @@ require_once __DIR__ . '/classes/check_user.class.php';
 require_once __DIR__ . '/classes/warning.class.php';
 require_once __DIR__ . '/classes/mappe.class.php';
 require_once __DIR__ . '/classes/link.class.php';
+require_once __DIR__ . '/classes/file.class.php';
 
 ?>
 <!DOCTYPE html>

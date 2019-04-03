@@ -115,9 +115,6 @@ class Mappe
             ":mapId" => $folder
         ]);
 
-
-        //Her kommer upload delen.
-
         if (!$stmt->rowCount()) {
             $query_add_fil = "INSERT INTO filer(filLink, filNavn, mapId) VALUES (:filLink, :filNavn, :mapId)";
 
@@ -128,5 +125,24 @@ class Mappe
                 ":mapId" => $folder
             ]);
         }
+    }
+
+    public static function getFile($folder)
+    {
+        $id = (int) $folder;
+        $files = array();
+        $query_get_files = "SELECT filId, filNavn, filLink FROM filer WHERE mapId = :id";
+
+        $stmt = Db::getPdo()->prepare($query_get_files);
+
+        $stmt->execute([
+            ":id" => $id
+        ]);
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $files[] = new File($row['filId'], $row['filNavn'], $row['filLink']);
+        }
+        return $files;
     }
 }

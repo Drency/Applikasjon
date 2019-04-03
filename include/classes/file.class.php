@@ -28,7 +28,7 @@ class File{
         return $this->id;
     }
 
-    public function deleteFile($username, $filId)
+    public static function deleteFile($username, $filId)
     {
         $query_get_fil = "SELECT f.filId FROM filer f LEFT JOIN mapper m ON m.mapId = f.mapId LEFT JOIN bibliotek b ON b.bibId = m.bibId LEFT JOIN brukere br ON b.id = br.id WHERE br.brukernavn = :username AND f.filId = :filId";
 
