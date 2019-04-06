@@ -40,7 +40,7 @@ CREATE TABLE filer (
 );
 
 CREATE TABLE bilder (
-    bildeID int UNIQUE NOT NULL AUTO_INCREMENT,
+    bildeId int UNIQUE NOT NULL AUTO_INCREMENT,
     bildeLink text, 
     mapId int(10),
     PRIMARY KEY(bildeID),

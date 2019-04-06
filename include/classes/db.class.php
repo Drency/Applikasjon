@@ -4,9 +4,9 @@ class Db
 {
     public static function getMysqli()
     {
-        $link = @new mysqli("localhost", "root", "", "app");
+        $db = mysqli_connect('localhost', 'root', '', 'app');
 
-        if (!$link->ping()) {
+        if (!$db->ping()) {
             echo "Error: Connection to database failed";
             die();
         }

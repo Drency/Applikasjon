@@ -108,7 +108,49 @@ if (isset($_GET['delFil'])) {
 }
 
 
-    //BILDER
+    //Last opp bilder
+    if (isset($_POST['nyttBilde']) && isset($_GET['folder'])) {
+        
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+        $fileName = basename($_FILES["file"]["name"]);
+        $upload = 1;
+        $folderId = $_GET['folder'];
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        
+        $query_add_img = "INSERT INTO bilder (bildeLink, mapId) VALUES (:bildeLink, :mapId)";
+
+        if ($_FILES["file"]["size"] > 10000000) {
+            echo Warning::danger("File er for stor", "Filen du prøvde å laste opp er for stor. Maks størrelse er 1 MB")->display();
+            $upload = 0;
+        }
+        
+        if ($upload == 0) {
+            echo Warning::danger("Det skjedde en feil", "Prøv igjen siden.")->display();
+        } else {
+            $query_check_img = "SELECT bildeLink FROM bilder WHERE bildeLink = :bildeLink AND mapId = :mapId";
+
+            $check_img = Db::getPdo()->prepare($query_check_img);
+            $check_img -> execute([
+                ":bildeLink" => $fileName,
+                ":mapId" => $_GET['folder']
+            ]);
+            if (!$check_img -> rowCount() ){
+                if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                    $db=Db::getPdo()->prepare($query_add_img);
+
+                    $db->execute([
+                        ':bildeLink' => $fileName,
+                        ':mapId' => $folderId
+                    ]);
+
+                    echo Warning::success("Fil lastet opp.", "Filen din har blitt lastet opp")->display();
+                } else {
+                    echo Warning::danger("Opplasting feilet!", "Filen eksisterer allerede")->display();
+                }
+            }
+        }
+    }
 
 ?>
 
@@ -135,10 +177,10 @@ if (isset($_GET['delFil'])) {
                     <input type="link" name="url" placeholder="Link Url">
                     <button class="btn btn-primary" name="nyLink">Legg til link</button>
                 </form>
-                <form action="nicktare.php" method="POST" id="imgForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
+                <form method="POST" id="imgForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
                     <label>Last opp bilde:</label>
                     <input type="file" name="file">
-                    <input type="submit" class="btn btn-primary" name="submit" value="Last opp">
+                    <input type="submit" class="btn btn-primary" name="nyttBilde" value="Last opp">
                 </form>
                 <form method="POST" id="fileForm" class="mt-2" style="display:none;" enctype="multipart/form-data">
                     <input type="text" name="filNavn" placeholder="Navnet til filen">
@@ -163,7 +205,22 @@ if (isset($_GET['delFil'])) {
                 <hr style="background-color: #383838; padding: 2px;">
                 <div class="img" style="color:black;">
                     <ul class='list-group' id="linkList">
-                        <!-- <img style="100px"> -->
+                         <?php
+$db = mysqli_connect('localhost', 'root', '', 'app');
+
+// Get images from the database
+$query = $db->query("SELECT bildeLink FROM bilder WHERE mapId = {$_GET['folder']}");
+
+if($query->num_rows > 0){
+    while($row = $query->fetch_assoc()){
+        $imageURL = 'uploads/'.$row["bildeLink"];
+?> 
+    <li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><img src="<?php echo $imageURL; ?>"  height="100"  alt="" /><span class='badge badge-danger badge-pill'><a class='text-light' href=''>Delete</a></span> </li> 
+<?php }
+}else{ ?>
+    <p>No image(s) found...</p>
+<?php } ?>
+
                 </div>
                 <hr style="background-color: #383838; padding: 2px;">
                 <ul class='list-group' id="fileList">
