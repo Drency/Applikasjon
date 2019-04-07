@@ -38,7 +38,6 @@ if (isset($_POST['login_user'])) {
     <p>
         Ikke medlem? <a href="reg.php">Registrer deg!</a>
     </p>
-    <?php include('errors.php'); ?>
 </form>
 
 <script>

@@ -4,8 +4,6 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . '/include/classes/check_user.class.php';
 require_once __DIR__ . '/include/classes/warning.class.php';
 
-$error = "";
-
 if (isset($_POST['reg_user'])) {
     if (strlen($_POST['username']) < 2) {
         echo Warning::danger("Manglende informasjon", "Brukernavn er ikke opplyst!")->display();
@@ -40,11 +38,12 @@ if (isset($_POST['reg_user'])) {
     </div>
     <div class="form-group">
         <label>Passord</label>
-        <input type="text" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password">
+        <input type="password" class="form-control col-xs-2 col-sm-2 col-md-2 col-lg-2" name="password" id="passID">
     </div>
     
     <div class="form-check">
         <button type="submit" class="btn btn-primary" name="reg_user">Registrer deg!</button>
+        <input type="checkbox" onclick="passVis()">Vis passord
     </div>
 
     <p>
@@ -54,6 +53,17 @@ if (isset($_POST['reg_user'])) {
     
 </form>
 
-<?php echo $error;
+<script>
+    function passVis() {
+        var pass = document.getElementById("passID");
+        if (pass.type === "password") {
+            pass.type = "text";
+        } else {
+            pass.type = "password";
+        }
+    }
+</script>
+
+<?php
 
 include_once __DIR__ . '/include/footer.php';
