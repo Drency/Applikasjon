@@ -145,4 +145,22 @@ class Mappe
         }
         return $files;
     }
+
+    public static function getImg($folder)
+    {
+        $id = (int) $folder;
+        $images = array();
+        $query_img_exists = "SELECT bildeId, bildeLink FROM bilder WHERE mapId = :mapId";
+
+        $stmt = Db::getPdo()->prepare($query_img_exists);
+        $stmt -> execute([
+            ":mapId" => $id
+        ]);
+        
+        $result = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $images[] = new Bilde($row['bildeId'], $row['bildeLink']);
+        }
+        return $images;
+    }
 }

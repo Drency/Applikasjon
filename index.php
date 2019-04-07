@@ -100,6 +100,7 @@ if (isset($_GET['delFil'])) {
 
         $path = realpath('uploads/' . $filename);
         if (is_writable($path)) {
+            // Om filene ligger på server istedenfor lokalt kan de slettes her
             echo Warning::success("Fil slettet", "Filen er slettet")->display();
         } else {
             echo Warning::danger("Sletting feilet", "Du har ikke tilgang til å slette denne filen.")->display();
@@ -107,50 +108,71 @@ if (isset($_GET['delFil'])) {
     }
 }
 
-
+        //BILDER
     //Last opp bilder
-    if (isset($_POST['nyttBilde']) && isset($_GET['folder'])) {
+if (isset($_POST['nyttBilde']) && isset($_GET['folder'])) {
         
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["file"]["name"]);
-        $fileName = basename($_FILES["file"]["name"]);
-        $upload = 1;
-        $folderId = $_GET['folder'];
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+    $fileName = basename($_FILES["file"]["name"]);
+    $upload = 1;
+    $folderId = $_GET['folder'];
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         
-        $query_add_img = "INSERT INTO bilder (bildeLink, mapId) VALUES (:bildeLink, :mapId)";
+    $query_add_img = "INSERT INTO bilder (bildeLink, mapId) VALUES (:bildeLink, :mapId)";
 
-        if ($_FILES["file"]["size"] > 10000000) {
-            echo Warning::danger("File er for stor", "Filen du prøvde å laste opp er for stor. Maks størrelse er 1 MB")->display();
-            $upload = 0;
-        }
+    if ($_FILES["file"]["size"] > 10000000) {
+        echo Warning::danger("File er for stor", "Filen du prøvde å laste opp er for stor. Maks størrelse er 1 MB")->display();
+        $upload = 0;
+    }
         
-        if ($upload == 0) {
-            echo Warning::danger("Det skjedde en feil", "Prøv igjen siden.")->display();
-        } else {
-            $query_check_img = "SELECT bildeLink FROM bilder WHERE bildeLink = :bildeLink AND mapId = :mapId";
+    if ($upload == 0) {
+        echo Warning::danger("Det skjedde en feil", "Prøv igjen siden.")->display();
+    } else {
+        $query_check_img = "SELECT bildeLink FROM bilder WHERE bildeLink = :bildeLink AND mapId = :mapId";
 
-            $check_img = Db::getPdo()->prepare($query_check_img);
-            $check_img -> execute([
-                ":bildeLink" => $fileName,
-                ":mapId" => $_GET['folder']
-            ]);
-            if (!$check_img -> rowCount() ){
-                if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                    $db=Db::getPdo()->prepare($query_add_img);
+        $check_img = Db::getPdo()->prepare($query_check_img);
+        $check_img -> execute([
+            ":bildeLink" => $fileName,
+            ":mapId" => $_GET['folder']
+        ]);
 
-                    $db->execute([
-                        ':bildeLink' => $fileName,
-                        ':mapId' => $folderId
-                    ]);
+        if (!$check_img -> rowCount()) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                $db=Db::getPdo()->prepare($query_add_img);
 
-                    echo Warning::success("Fil lastet opp.", "Filen din har blitt lastet opp")->display();
-                } else {
-                    echo Warning::danger("Opplasting feilet!", "Filen eksisterer allerede")->display();
-                }
+                $db->execute([
+                    ':bildeLink' => $fileName,
+                    ':mapId' => $folderId
+                ]);
+
+                echo Warning::success("Fil lastet opp.", "Filen din har blitt lastet opp")->display();
+            } else {
+                echo Warning::danger("Opplasting feilet!", "Filen eksisterer allerede")->display();
             }
         }
     }
+}
+
+if (isset($_GET['delImg'])) {
+    if (Bilde::delImg($_SESSION['user'], $_GET['delImg'])) {
+        $query_get_img_name  = "SELECT filNavn FROM filer WHERE filId = :bildeId";
+        $get_img_name = Db::getPdo()->prepare($query_get_img_name);
+        $get_img_name -> execute([":bildeId" => $_GET['delImg']]);
+
+        $filename = $get_img_name->fetchColumn();
+
+        $path = realpath('uploads/' . $filename);
+        if (is_writable($path)) {
+            // Om filene ligger på server istedenfor lokalt kan de slettes her
+            echo Warning::success("Slettet bilde.", "Bildet har blitt slettet")->display();
+        } else {
+            echo Warning::danger("premission not granted", "Feil i windows")->display();
+        }
+    } else {
+        echo Warning::danger("Sletting feilet", "Du har ikke tilgang til å slette dette bildet.")->display();
+    }
+}
 
 ?>
 
@@ -205,22 +227,16 @@ if (isset($_GET['delFil'])) {
                 <hr style="background-color: #383838; padding: 2px;">
                 <div class="img" style="color:black;">
                     <ul class='list-group' id="linkList">
-                         <?php
-$db = mysqli_connect('localhost', 'root', '', 'app');
+                        <!-- Legger til forskjellige bilder -->
+                        <?php
+                            $folder = $_GET['folder'];
+                            $imgResultat = array();
+                            $imgResultat = Mappe::getImg($_GET['folder']);
 
-// Get images from the database
-$query = $db->query("SELECT bildeLink FROM bilder WHERE mapId = {$_GET['folder']}");
-
-if($query->num_rows > 0){
-    while($row = $query->fetch_assoc()){
-        $imageURL = 'uploads/'.$row["bildeLink"];
-?> 
-    <li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><img src="<?php echo $imageURL; ?>"  height="100"  alt="" /><span class='badge badge-danger badge-pill'><a class='text-light' href=''>Delete</a></span> </li> 
-<?php }
-}else{ ?>
-    <p>No image(s) found...</p>
-<?php } ?>
-
+                        foreach ($imgResultat as $bilde) {
+                            echo "<li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><img src='uploads/{$bilde->getLink()}' alt='Bilde' style='height:100px'/><span class='badge badge-danger badge-pill'><a class='text-light' href='?folder={$folder}&delImg={$bilde->getId()}'>Delete</a></span></li>";
+                        }
+                        ?>
                 </div>
                 <hr style="background-color: #383838; padding: 2px;">
                 <ul class='list-group' id="fileList">
@@ -229,6 +245,7 @@ if($query->num_rows > 0){
                         $folder = $_GET['folder'];
                         $filResult = array();
                         $filResult = Mappe::getFile($folder);
+
                         
                     foreach ($filResult as $file) {
                         echo  "<li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'><a>{$file->getName()}</a><span class='badge badge-danger badge-pill'><a class='text-light' href='?folder={$folder}&delFil={$file->getId()}'>Delete</a></span></li>";
