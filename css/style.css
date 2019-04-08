@@ -1,12 +1,14 @@
 /* Generell styling */
 html{
-    background-color:rgb(29, 28, 28);  
+    background-color:rgb(29, 28, 28);
+    height: 100%;  
 }
 body {
     background-color:rgb(29, 28, 28);
     max-width: 100%;
     overflow-x: hidden;
     margin: 2px;
+    overflow-y: auto;
     
 }
 
@@ -46,4 +48,17 @@ body {
     display: block;
     margin-right: auto;
     margin-left: auto;
-  }
+}
+
+/* use.php styling */
+#midtstill{
+    margin-left:31%;
+}
+
+footer{
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+}

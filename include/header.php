@@ -16,7 +16,7 @@ require_once __DIR__ . '/classes/bilde.class.php';
 <html>
 
 <head>
-    <link rel="shortcut icon" href="img/logo2.png" />
+    <link rel="shortcut icon" href="img/logo2.png">
     <title rel="shortcut icon">New Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
