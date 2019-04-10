@@ -2,7 +2,6 @@
 session_start();
 
 //Requires
-require_once __DIR__ . '/include/classes/db.class.php';
 require_once __DIR__ . "/include/header.php";
 
     //MAPPER
@@ -182,7 +181,7 @@ if (isset($_GET['delImg'])) {
         <div class="col-4 text-center flex-column">
             <button class="btn btn-primary mt-2" onclick="nyMappe()">Ny mappe</button>
             <div id="btn-container">
-            
+                
             </div>
         </div>
         <!-- Om man han trykket på en mappe, vises innholdet i mappen -->
@@ -317,7 +316,7 @@ function nyLink() {
     showLink =! showLink;
     if(showImg || showFil){
         document.getElementById('imgForm').style = "display:none;";
-        document.getElementById('fileForm').style = "display: none;"
+        document.getElementById('fileForm').style = "display:none;"
         showImg = false;
         showFil = false;
         if(showLink){
