@@ -1,4 +1,4 @@
-    <footer class="page-footer">
+    <footer class="page-footer" style="z-index: -1;">
         <div class="footer-copyright text-center py-3" id="footer-content">
 
             © 2018 Copyright:
