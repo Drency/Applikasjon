@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS bilder;
+DROP TABLE IF EXISTS filer;
+DROP TABLE IF EXISTS links;
+DROP TABLE IF EXISTS mapper;
+DROP TABLE IF EXISTS bibliotek;
+DROP TABLE IF EXISTS brukere;
 CREATE TABLE brukere (
     id int UNIQUE NOT NULL AUTO_INCREMENT,
     brukernavn varchar(100) NOT NULL,
@@ -39,6 +45,7 @@ CREATE TABLE filer (
     FOREIGN KEY (mapId) REFERENCES Mapper(mapId)
 );
 
+
 CREATE TABLE bilder (
     bildeId int UNIQUE NOT NULL AUTO_INCREMENT,
     bildeLink text, 
@@ -47,6 +54,7 @@ CREATE TABLE bilder (
     FOREIGN KEY (mapId) REFERENCES Mapper(mapId)
 );
 
+DROP TRIGGER IF EXISTS bib;
 DELIMITER $$
 CREATE TRIGGER bib
 AFTER INSERT ON brukere
@@ -56,13 +64,3 @@ INSERT INTO bibliotek(id)
 VALUES(new.id);
 END$$
 DELIMITER ;
-
-INSERT INTO brukere (brukernavn, email, passord)
-VALUES ('test', 'test@test.com', 'test'); 
-
-INSERT INTO mapper (mappeNavn, bibId)
-VALUES ('testmappe', '1');
-
-INSERT INTO links (linkNavn, linkUrl, mapId) 
-VALUES ('asdsa', 'afasfasd', '1');
-
